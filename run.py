@@ -16,13 +16,15 @@ def get_customer_answers():
     """
     collect customer survey responses and assign a new customer id.
     """
-    print("Please rate your customer experience in the next four questions.\n")
+    print("\nPlease rate your customer experience in the next four questions.\n")
     print("Data must be a number from 1-5 based on the following:")
-    print("""1 - Bad experience
+    print("""
+    1 - Bad experience
     2 - Poor experience
     3 - Neutral experience
     4 - Good experience
-    5 - Best experience""")
+    5 - Best experience
+          """)
 
     responses = [] 
     last_customer_id = get_last_customer_id()  # Get the last customer id
@@ -158,7 +160,7 @@ def print_survey_averages():
     for header, value in zip(headers, latest_data):
         rating = int(value)
         message = get_rating_message(rating)
-        print(f"{header}: {value} ({message})")
+        print(f"{header} {value} ({message})\n")
 
 def get_rating_message(rating):
     if rating == 1:
@@ -171,6 +173,8 @@ def get_rating_message(rating):
         return "Good Experiance"  # Typo here
     elif rating == 5:
         return "Excellent Experiance"  # Typo here
+    else:
+        return("Responses in total")
 
 def main():
     """
