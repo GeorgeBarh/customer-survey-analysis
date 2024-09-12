@@ -33,8 +33,17 @@ def main():
             print(f"An unexpected error occurred: {e}")
         
         # Ask user if they want to continue or exit
-        continue_prompt = input("Do you want to perform another action? (yes/no): ").strip().lower()
-        if continue_prompt != 'yes':
+        while True:
+            try:
+                answer = input("Do you want to perform another action? (yes/no): ").strip().lower()
+                if answer in ['yes', 'no']:
+                    break
+                else:
+                    print("Invalid input. Please enter 'yes' or 'no'.")
+            except Exception as e:
+                print(f"An error occurred while processing your input: {e}")
+        
+        if answer != 'yes':
             print("Exiting the program.")
             break
 
