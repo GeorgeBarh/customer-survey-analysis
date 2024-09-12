@@ -1,7 +1,7 @@
 import gspread
 from google.oauth2.service_account import Credentials
 
-# Initialize Google Sheets API
+# initialize Google Sheets API
 scope = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
@@ -14,7 +14,7 @@ sheet = gspread_client.open('customer_survey')
 
 def get_customer_answers():
     """
-    Collect customer survey responses and assign a new customer id.
+    collect customer survey responses and assign a new customer id.
     """
     print("\nPlease rate your customer experience in the next four questions.\n")
     print("Data must be a number from 1-5 based on the following:")
@@ -53,7 +53,7 @@ def get_customer_answers():
 
 def validate_response(response):
     """
-    Ensure the response is a number between 1 and 5.
+    ensure the response is a number between 1 and 5.
     """
     try:
         response = int(response)
@@ -66,7 +66,7 @@ def validate_response(response):
 
 def get_last_customer_id():
     """
-    Retrieve the last customer id from the survey worksheet.
+    retrieve the last customer id from the survey worksheet.
     """
     try:
         survey_worksheet = sheet.worksheet("survey") 
@@ -83,9 +83,9 @@ def get_last_customer_id():
     
 def update_survey_worksheet(data):
     """
-    Update survey worksheet, add new row with the list data provided.
+    update survey worksheet, add new row with the list data provided.
     """
     print("Updating survey worksheet...\n")
     survey_worksheet = sheet.worksheet("survey")
     survey_worksheet.append_row(data)
-    print("Survey worksheet updated successfully.\n")
+    print("Survey worksheet updated succesfully.\n")  
