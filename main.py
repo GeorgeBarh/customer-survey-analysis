@@ -181,7 +181,6 @@ def main():
     Run all program functions.
     """
     customer_responses = get_customer_answers()
-    print(f"Your responses are {customer_responses}")
     update_survey_worksheet(customer_responses)
     
     averages = calculate_averages()
