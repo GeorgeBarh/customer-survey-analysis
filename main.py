@@ -26,6 +26,8 @@ def main():
 
             else:
                 print("Invalid role. Please enter 'customer' or 'owner'.")
+                # Skip the continuation prompt and loop back to role input
+                continue
         
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
