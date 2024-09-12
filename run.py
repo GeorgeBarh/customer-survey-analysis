@@ -82,14 +82,15 @@ def get_last_customer_id():
         last_customer_id = 1
     return last_customer_id
     
-def update_survey_worksheet(data):
+def update_worksheet(data, worksheet):
     """
-    Update the survey worksheet with the new responses.
+    Receives a list of integers to be inserted into a worksheet
+    Update the relevant worksheet with the data provided
     """
-    print("Updating survey worksheet...\n")
-    survey_worksheet = SHEET.worksheet("survey") 
-    survey_worksheet.append_row(data)
-    print("Survey worksheet updated successfully.\n")
+    print(f"Updating {worksheet} worksheet...\n")
+    worksheet_to_update = SHEET.worksheet(worksheet)
+    worksheet_to_update.append_row(data)
+    print(f"{worksheet} worksheet updated successfully\n")
 
 def main():
     """
@@ -106,8 +107,38 @@ def get_survey_data():
     Retrieve all survey responses from the 'survey' worksheet.
     """
     survey_worksheet = SHEET.worksheet("survey")
-    data = survey_worksheet.get_all_values()  # Get all rows including headers
+    data = survey_worksheet.get_all_values()  
     return data[1:]  # Exclude the header row
 
+def calculate_averages():
+    """
+    Calculate the average rating for each survey question using basic Python.
+    """
+    data = get_survey_data()
+    
+    # Initialize variables to store the total sums and the count for each question
+    total_sums = [0, 0, 0, 0]  # There are 4 questions
+    count = len(data)  # Number of responses (rows)
+
+    # Loop through each row of responses (excluding Customer_id column)
+    for row in data:
+        total_sums[0] += int(row[1])  # Overall satisfaction
+        total_sums[1] += int(row[2])  # Product quality
+        total_sums[2] += int(row[3])  # Customer support
+        total_sums[3] += int(row[4])  # Likelihood to recommend
+
+    # Calculate the averages by dividing each sum by the total number of responses
+    averages = [total / count for total in total_sums]
+
+    return averages
+
+def update_analysis_worksheet(data):
+    """
+    Update the analysis worksheet with the average of customer's responses
+    """
+    print("Updating analysis worksheet...\n")
+    analysis_worksheet = SHEET.worksheet("analysis") 
+    analysis_worksheet.append_row(data)
+    print("Survey worksheet updated successfully.\n")
 
 main()
