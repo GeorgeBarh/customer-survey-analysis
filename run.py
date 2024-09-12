@@ -15,7 +15,7 @@ def get_customer_answers():
     """
     Get customer's review regarding customer support based on four questions.
     """
-
+    
     print("Please rate your customer experience in the next four questions so as to help us improve our work.\n")
     print("Data must be a number from 1-5 based on the following:")
     print("""
@@ -26,31 +26,46 @@ def get_customer_answers():
     5 - Best experience
     """)
 
-    responses = []
+    responses = [] 
 
+   
     questions = [
         "How would you rate your overall satisfaction with our service? (1-5): \n",
-        "How satisfied are you with the quality of the product you received? (1-5):\n ",
-        "How would you rate your experience with our customer support team? (1-5):\n ",
-        "How likely are you to recommend our product/service to a friend or colleague? (1-5):\n "
-    ]
+        "How satisfied are you with the quality of the product you received? (1-5): \n",
+        "How would you rate your experience with our customer support team? (1-5): \n",
+        "How likely are you to recommend our product/service to a friend or colleague? (1-5): \n"
+]
 
     for question in questions:
-        while True:
+        while True:  # Repeat until we get a valid response
+            response = input(question)  
             try:
-                response = int(input(question))
-                if (1 <= response) and (response <= 5):
-                    responses.append(response)
-                    break  # Exit loop if response is valid
-                else: # Raise ValueError if response is outside the expected range
-                    raise ValueError("Data must be a number between 1 and 5.")
+                validated_response = validate_response(response)  # Validate the input
+                responses.append(validated_response)  # Append the validated response
+                break  # Exit loop if response is valid
             except ValueError as e:
-                # Print the error message
-                print(e)
-                print("Please provide a number betwwen 1 and 5.")
+                print(e)  # Print error message and ask again
 
-    print("Thank you for your feedback!")
 
-get_customer_answers()
+def validate_response(response):
+    """
+    Validate that the response is a number between 1 and 5.
+    
+    """
+    try:
+        response = int(response)
+        
+        # Check if the integer is between 1 and 5
+        if response >= 1 and response <= 5:
+            return response  # Return the valid integer response
+        else:
+            # Raise ValueError if the number is out of the valid range
+            raise ValueError("Number must be between 1 and 5.")
+    except ValueError as e:
+        # Raise an error if conversion to integer fails or if out of range
+        print(f"Invalid input: {e}. Please enter a number between 1 and 5.\n")
+    
+customer_responses = get_customer_answers()
+print(f"Your responses are {customer_responses}")
     
     
