@@ -75,10 +75,10 @@ def get_last_customer_id():
             last_row = data[-1]
             last_customer_id = int(last_row[0])  # Customer ID is in the first column
         else:
-            last_customer_id = 0  # Start with 0 if no data
+            last_customer_id = 1  # Start with 0 if no data
     except Exception as e:
         print(f"Error retrieving last customer ID: {e}")
-        last_customer_id = 0
+        last_customer_id = 1
     return last_customer_id
     
 def update_survey_worksheet(data):
