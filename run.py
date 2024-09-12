@@ -13,6 +13,7 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('customer_survey')
 
 def get_customer_answers():
+
     """
     Collect customer survey responses and assign a new customer ID.
     """
@@ -90,7 +91,23 @@ def update_survey_worksheet(data):
     survey_worksheet.append_row(data)
     print("Survey worksheet updated successfully.\n")
 
-# Collect responses and update the worksheet
+def main():
+    """
+    Run all program functions
+    """
 customer_responses = get_customer_answers()
 print(f"Your responses are {customer_responses}")
 update_survey_worksheet(customer_responses)
+
+# Survey Analysis
+
+def get_survey_data():
+    """
+    Retrieve all survey responses from the 'survey' worksheet.
+    """
+    survey_worksheet = SHEET.worksheet("survey")
+    data = survey_worksheet.get_all_values()  # Get all rows including headers
+    return data[1:]  # Exclude the header row
+
+
+main()
