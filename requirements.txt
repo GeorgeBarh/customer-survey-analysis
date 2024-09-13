@@ -12,3 +12,4 @@ requests==2.32.3
 requests-oauthlib==2.0.0
 rsa==4.9
 urllib3==2.2.2
+flake8==7.1.1
