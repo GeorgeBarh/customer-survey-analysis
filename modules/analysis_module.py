@@ -48,7 +48,7 @@ class Analysis:
             averages[3],  # recommendation
         ]
         self.analysis_sheet.append_row(data)
-        print("Analysis worksheet updated successfully.\n")
+        print("Analysis worksheet updated successfully.")
 
     def print_survey_averages(self):
         """
@@ -63,11 +63,32 @@ class Analysis:
         headers = rows[0]  # Headers are in the first row
         latest_data = rows[-1]  # Latest data is in the last row
 
-        print("Survey Averages:")
+        print("\nSurvey Averages List:")
         for header, value in zip(headers, latest_data):
             print(f"{header} {value}")
 
             #Second function of analysis
+
+    def provide_feedback(self):
+        """
+        Provide feedback based on survey averages.
+        """
+        averages = self.calculate_averages()
+
+        print("\nFeedback Based on Averages:")
+        # Changed from 'metric_names' to 'criteria'
+        criteria = [
+        "Overall Satisfaction",
+        "Product Quality",
+        "Customer Support",
+        "Recommendation"
+        ]
+
+        for average, criterion in zip(averages, criteria):
+            print(get_feedback_message(average, criterion))
+
+
+            #Third function of analysis
 
     def export_analysis_to_csv(self):
         """

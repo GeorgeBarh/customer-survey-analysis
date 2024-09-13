@@ -70,7 +70,7 @@ def handle_owner_role(google_sheet):
 def display_functionality_menu(analysis):
     """Display functionality menu and handle user choices."""
     while True:
-        print("Available functionalities:")
+        print("\nAvailable functionalities:")
         print("1. Print survey averages")
         print("2. Export analysis to CSV")
         print("3. Exit menu")
