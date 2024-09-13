@@ -1,0 +1,1 @@
+PASSWORD = "1" #Example fixed password 
