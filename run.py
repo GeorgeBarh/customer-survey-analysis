@@ -50,7 +50,8 @@ def validate_password():
         print("Configuration file missing. Please ensure 'password.py' is present.")
         exit(1)
 
-    print("\nThe password is 'owner'. For the project's assessment purposes, the user is aware of the password.")
+    print("\nThe password is 'owner'.") 
+    print("For the project's assessment purposes, the user is aware of the password.")
     password = input("Enter the password 'owner': \n").strip()  # Prompt user to enter the password
     if password == PASSWORD:
         print("\nPassword correct. Proceeding with analysis...")

@@ -72,7 +72,7 @@ class SurveyDataAnalyzer:
             ]
 
             for average, criterion in zip(averages, criteria):
-                print(f"{criterion} ({average}): {self.get_feedback_message(average)}")
+                print(f"{criterion}: {self.get_feedback_message(average)}")
 
         def get_feedback_message(self, score):
             """
