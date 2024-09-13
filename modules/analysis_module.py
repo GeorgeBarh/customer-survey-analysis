@@ -128,6 +128,28 @@ class ReportExporter:
         except Exception as e:
             print(f"\nAn error occurred while exporting to CSV: {e}")
 
+
+    def print_csv_contents(self):
+        """
+        Print the contents of the CSV file.
+        Reads the file and prints its content to the console.
+        """
+        
+        filename = 'reports/analysis_report.csv'
+        try:
+            if not os.path.exists(filename):
+                print(f"\nThe file {filename} does not exist.")
+                return
+
+            with open(filename, mode='r') as file:
+                reader = csv.reader(file)
+                print("\nContents of the CSV file:")
+                for row in reader:
+                    print(row)
+
+        except Exception as e:
+            print(f"\nAn error occurred while reading the CSV file: {e}")
+
 class Analysis:
     """
     Manages survey analysis, feedback, and reporting functionalities.
