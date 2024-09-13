@@ -2,6 +2,37 @@ import modules.google_sheet as gs
 import modules.survey_module as sm
 import modules.analysis_module as am
 
+def handle_user_role(user_role, google_sheet):
+    """
+    Handle the actions based on user role input.
+    """
+    try:
+        if user_role == 'customer':
+            handle_customer_role(google_sheet)
+
+        elif user_role == 'owner':
+            handle_owner_role(google_sheet)
+
+        else:
+            print("Invalid role. Please enter 'customer' or 'owner'.")
+            return False
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        return False
+
+    return True
+
+def handle_customer_role(google_sheet):
+    """
+    Handle actions for customer role.
+    """
+    try:
+        survey = sm.Survey(google_sheet)  # Pass the GoogleSheet instance to Survey
+        customer_responses = survey.get_customer_answers()
+        survey.update_survey_worksheet(customer_responses)
+    except Exception as e:
+        print(f"An error occurred while processing customer responses: {e}")
+
 def validate_password():
     """Verify the password for accessing the owner functionalities."""
     try:
@@ -19,54 +50,21 @@ def validate_password():
         print(f"Incorrect password. The correct password is '{PASSWORD}'.")
         return False
 
-def handle_user_role(user_role, google_sheet):
+def handle_owner_role(google_sheet):
     """
-    Handle the actions based on user role input.
+    Handle actions for owner role.
     """
-    try:
-        if user_role == 'customer':
-            try:
-                survey = sm.Survey(google_sheet)  # Pass the GoogleSheet instance to Survey
-                customer_responses = survey.get_customer_answers()
-                survey.update_survey_worksheet(customer_responses)
-            except Exception as e:
-                print(f"An error occurred while processing customer responses: {e}")
-
-        elif user_role == 'owner':
-            if validate_password():
-                try:
-                    analysis = am.Analysis(google_sheet)  # Pass the GoogleSheet instance to Analysis
-                    averages = analysis.calculate_averages()
-                    analysis.update_analysis_worksheet(averages)
-                    analysis.print_survey_averages()
-                    
-                    display_functionality_menu(analysis)  # Show the functionality menu to the owner
-
-                except Exception as e:
-                    print(f"An error occurred while processing survey analysis: {e}")
-
-        else:
-            print("Invalid role. Please enter 'customer' or 'owner'.")
-            return False
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-        return False
-
-    return True
-
-def get_user_continue_response():
-    """
-    Ask the user if they want to perform another action.
-    """
-    while True:
+    if validate_password():
         try:
-            answer = input("Do you want to perform another action? (yes/no): ").strip().lower()
-            if answer in ['yes', 'no']:
-                return answer
-            else:
-                print("Invalid input. Please enter 'yes' or 'no'.")
+            analysis = am.Analysis(google_sheet)  # Pass the GoogleSheet instance to Analysis
+            averages = analysis.calculate_averages()
+            analysis.update_analysis_worksheet(averages)
+            analysis.print_survey_averages()
+            
+            display_functionality_menu(analysis)  # Show the functionality menu to the owner
+
         except Exception as e:
-            print(f"An error occurred while processing your input: {e}")
+            print(f"An error occurred while processing survey analysis: {e}")
 
 def display_functionality_menu(analysis):
     """Display functionality menu and handle user choices."""
@@ -96,6 +94,20 @@ def display_functionality_menu(analysis):
 
         else:
             print("Invalid choice. Please select a number between 1 and 3.")
+
+def get_user_continue_response():
+    """
+    Ask the user if they want to perform another action.
+    """
+    while True:
+        try:
+            answer = input("Do you want to perform another action? (yes/no): ").strip().lower()
+            if answer in ['yes', 'no']:
+                return answer
+            else:
+                print("Invalid input. Please enter 'yes' or 'no'.")
+        except Exception as e:
+            print(f"An error occurred while processing your input: {e}")
 
 def main():
     """
