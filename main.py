@@ -1,5 +1,6 @@
-import survey_module
-import analysis_module
+import modules.google_sheet as gs
+import modules.survey_module as sm
+import modules.analysis_module as am
 
 def handle_user_role(user_role):
     """
