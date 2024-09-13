@@ -48,7 +48,7 @@ def validate_password():
         print("\nPassword correct. Proceeding with analysis...")
         return True
     else:
-        print(f"Incorrect password. The correct password is '{PASSWORD}'.\n")
+        print(f"\nIncorrect password. The correct password is '{PASSWORD}'.")
         return False
 
 def handle_owner_role(google_sheet):
@@ -59,8 +59,8 @@ def handle_owner_role(google_sheet):
         try:
             analysis = am.Analysis(google_sheet)  # Pass the GoogleSheet instance to Analysis
             averages = analysis.calculate_averages()
+
             analysis.update_analysis_worksheet(averages)
-            analysis.print_survey_averages()
             
             display_functionality_menu(analysis)  # Show the functionality menu to the owner
 
@@ -70,25 +70,27 @@ def handle_owner_role(google_sheet):
 def display_functionality_menu(analysis):
     """Display functionality menu and handle user choices."""
     while True:
-        print("\nAvailable functionalities:")
+        print("Available functionalities:")
         print("1. Print survey averages")
         print("2. Export analysis to CSV")
-        print("3. Exit")
+        print("3. Exit menu")
 
         choice = input("Select a functionality (1-3): ").strip()
-        print(" ")
 
         if choice == '1':
             analysis.print_survey_averages()
 
         elif choice == '2':
-            export_choice = input("Do you want to export the analysis data to a CSV file? (yes/no): ").strip().lower()
-            if export_choice == 'yes':
-                analysis.export_analysis_to_csv()  # Call without filename
-            elif export_choice == 'no':
-                print("Skipping export to CSV.")
-            else:
-                print("Invalid choice. Please enter 'yes' or 'no'.")
+            while True:  # Inner loop for handling CSV export choice
+                export_choice = input("Do you want to export the analysis data to a CSV file? (yes/no): ").strip().lower()
+                if export_choice == 'yes':
+                    analysis.export_analysis_to_csv()  # Call without filename
+                    break  # Exit the loop after successful export
+                elif export_choice == 'no':
+                    print("Skipping export to CSV.")
+                    break  # Exit the loop if user chooses not to export
+                else:
+                    print("Invalid choice. Please enter 'yes' or 'no'.")  # Ask again
 
         elif choice == '3':
             print("Exiting functionality menu.")
