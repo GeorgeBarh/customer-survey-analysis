@@ -102,7 +102,7 @@ class Analysis:
                 writer.writerow(headers)
                 writer.writerows(data)
                 
-            print(f"Analysis data exported to {filename} successfully.")
+            print(f"\nAnalysis data exported to {filename} successfully.")
 
         except Exception as e:
-            print(f"An error occurred while exporting to CSV: {e}")
+            print(f"\nAn error occurred while exporting to CSV: {e}")

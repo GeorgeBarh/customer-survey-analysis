@@ -11,7 +11,10 @@ def handle_user_role(user_role, google_sheet):
             handle_customer_role(google_sheet)
 
         elif user_role == 'owner':
-            handle_owner_role(google_sheet)
+            if validate_password():  # Only proceed if the password is correct
+                handle_owner_role(google_sheet)
+            else:
+                print("Access denied. You cannot proceed with owner functionalities.")
 
         else:
             print("Invalid role. Please enter 'customer' or 'owner'.")
@@ -41,13 +44,13 @@ def validate_password():
         print("Configuration file missing. Please ensure 'password.py' is present.")
         exit(1)
 
-    print("The password is 'owner'. For evaluation purposes, the user is aware of the password")
+    print("\nThe password is 'owner'. For evaluation purposes, the user is aware of the password.")
     password = input("Enter the password 'owner': ").strip()
     if password == PASSWORD:
-        print("Password correct. Proceeding with analysis...")
+        print("\nPassword correct. Proceeding with analysis...")
         return True
     else:
-        print(f"Incorrect password. The correct password is '{PASSWORD}'.")
+        print(f"Incorrect password. The correct password is '{PASSWORD}'.\n")
         return False
 
 def handle_owner_role(google_sheet):
@@ -75,6 +78,7 @@ def display_functionality_menu(analysis):
         print("3. Exit")
 
         choice = input("Select a functionality (1-3): ").strip()
+        print("\n")
 
         if choice == '1':
             analysis.print_survey_averages()
