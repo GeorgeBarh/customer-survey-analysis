@@ -71,10 +71,15 @@ class Analysis:
 
     def export_analysis_to_csv(self):
         """
-        Export the analysis data to a CSV file with a fixed path.
+        Export the analysis data to a CSV file in the 'reports' directory.
         """
-        fixed_filename = 'analysis_report.csv'  # Fixed path and filename
         try:
+            # Define the path for the CSV file
+            if not os.path.exists('reports'):
+                os.makedirs('reports')  # Create the 'reports' directory if it doesn't exist
+
+            filename = 'reports/analysis_report.csv'  # Path to the CSV file
+
             # Collect data
             averages = self.calculate_averages()
             total_responses = len(self.get_survey_data())
@@ -92,12 +97,12 @@ class Analysis:
             ]
 
             # Write to CSV
-            with open(fixed_filename, mode='w', newline='') as file:
-                writer = csv.writer(file)
+            with open(filename, mode='w', newline='') as file:
+                writer = csv.writer(file,)
                 writer.writerow(headers)
                 writer.writerows(data)
                 
-            print(f"Analysis data exported to {fixed_filename} successfully.")
+            print(f"Analysis data exported to {filename} successfully.")
 
         except Exception as e:
             print(f"An error occurred while exporting to CSV: {e}")
