@@ -33,24 +33,14 @@ def handle_user_role(user_role, google_sheet):
                 print(f"An error occurred while processing customer responses: {e}")
 
         elif user_role == 'owner':
-            if validate_password():  
+            if validate_password():
                 try:
                     analysis = am.Analysis(google_sheet)  # Pass the GoogleSheet instance to Analysis
                     averages = analysis.calculate_averages()
                     analysis.update_analysis_worksheet(averages)
                     analysis.print_survey_averages()
                     
-                    while True:
-                        # Ask the owner if they want to export the analysis to CSV
-                        export_choice = input("Do you want to export the analysis data to a CSV file? (yes/no): ").strip().lower()
-                        if export_choice == 'yes':
-                            analysis.export_analysis_to_csv()  # Call without filename
-                            break  # Exit the loop
-                        elif export_choice == 'no':
-                            print("Skipping export to CSV.")
-                            break  # Exit the loop
-                        else:
-                            print("Invalid input. Please enter 'yes' or 'no'.")
+                    display_functionality_menu(analysis)  # Show the functionality menu to the owner
 
                 except Exception as e:
                     print(f"An error occurred while processing survey analysis: {e}")
@@ -81,7 +71,7 @@ def get_user_continue_response():
 def display_functionality_menu(analysis):
     """Display functionality menu and handle user choices."""
     while True:
-        print("Available functionalities:")
+        print("\nAvailable functionalities:")
         print("1. Print survey averages")
         print("2. Export analysis to CSV")
         print("3. Exit")
