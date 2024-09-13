@@ -46,7 +46,7 @@ def validate_password():
         exit(1)
 
     print("\nThe password is 'owner'. For the project's assessment purposes, the user is aware of the password.")
-    password = input("Enter the password 'owner': ").strip()
+    password = input("Enter the password 'owner': \n").strip()
     if password == PASSWORD:
         print("\nPassword correct. Proceeding with analysis...")
         return True
@@ -75,7 +75,7 @@ def get_user_continue_response():
     """
     while True:
         try:
-            answer = input("Do you want to perform another action? (yes/no): ").strip().lower()
+            answer = input("Do you want to perform another action? (yes/no): \n").strip().lower()
             if answer in ['yes', 'no']:
                 return answer
             else:
@@ -90,7 +90,7 @@ def main():
     google_sheet = gs.GoogleSheet('customer_survey')  # Initialize GoogleSheet instance with the correct sheet name
 
     while True:
-        user_role = input("Are you a customer or the owner? (Enter 'customer' or 'owner'): ").strip().lower()
+        user_role = input("Are you a customer or the owner? (Enter 'customer' or 'owner'): \n").strip().lower()
         if handle_user_role(user_role, google_sheet):
             continue_prompt = get_user_continue_response()
             if continue_prompt != 'yes':

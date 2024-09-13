@@ -152,7 +152,7 @@ class Analysis:
             print("3. Export analysis to CSV")
             print("4. Exit menu")
 
-            choice = input("Select a functionality (1-4): ").strip()
+            choice = input("Select a functionality (1-4): \n").strip()
 
             if choice == '1':
                 self.print_survey_averages()
@@ -176,7 +176,7 @@ class Analysis:
         Handle exporting analysis data to CSV with valid input.
         """
         while True:
-            export_choice = input("Do you want to export the analysis data to a CSV file? (yes/no): ").strip().lower()
+            export_choice = input("Do you want to export the analysis data to a CSV file? (yes/no):\n").strip().lower()
             if export_choice == 'yes':
                 self.report_exporter.export_analysis_to_csv()
                 break
