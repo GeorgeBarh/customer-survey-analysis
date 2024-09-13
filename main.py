@@ -1,4 +1,3 @@
-main
 
 import modules.google_sheet as gs
 import modules.survey_module as sm
