@@ -62,4 +62,4 @@ class Analysis:
 
         print("\nSurvey Averages:")
         for header, value in zip(headers, latest_data):
-            print(f"{header}: {value}")
+            print(f"{header} {value}")

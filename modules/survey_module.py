@@ -59,7 +59,7 @@ class Survey:
 
     def get_last_customer_id(self):
         """
-        retrieve the last customer ID from the survey worksheet.
+        etrieve the last customer ID from the survey worksheet.
         """
         data = self.sheet.get_all_values()
         if len(data) > 1:
@@ -73,6 +73,6 @@ class Survey:
         """
         Update survey worksheet with new row of data.
         """
-        print("Updating survey worksheet...\n")
         self.sheet.append_row(data)
-        print("Survey worksheet updated successfully.\n")
+        print("\nSurvey worksheet updated successfully.")
+        print("Thanks for your feedback! \n")
