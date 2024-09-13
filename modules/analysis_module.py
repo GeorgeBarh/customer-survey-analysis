@@ -5,13 +5,18 @@ import os
 class SurveyDataAnalyzer:
     """
     Analyzes survey data and calculates averages.
+    Provides functionality to retrieve data, calculate averages, and provide feedback.
     """
     def __init__(self, survey_sheet):
+        """
+        Initialize with a reference to the survey sheet.
+        """
         self.survey_sheet = survey_sheet
 
     def get_survey_data(self):
         """
-        Retrieve all survey responses.
+        Retrieve all survey responses from the worksheet.
+        Excludes the header row for processing.
         """
         data = self.survey_sheet.get_all_values()
         return data[1:]  # Exclude the header row
@@ -19,11 +24,13 @@ class SurveyDataAnalyzer:
     def calculate_averages(self):
         """
         Calculate average ratings for each survey question.
+        Computes total sums and averages for four survey questions.
         """
         data = self.get_survey_data()
         total_sums = [0, 0, 0, 0]  # There are 4 questions in the survey
         count = len(data)  # Number of responses (rows)
 
+        # Accumulate totals for each question
         for row in data:
             total_sums[0] += int(row[1])  # Overall satisfaction
             total_sums[1] += int(row[2])  # Product quality
@@ -31,14 +38,16 @@ class SurveyDataAnalyzer:
             total_sums[3] += int(row[4])  # Recommendation
 
         if count == 0:
-            return [0, 0, 0, 0]  # Avoid division by zero
+            return [0, 0, 0, 0]  # Avoid division by zero if no data is present
 
+        # Calculate and round averages
         averages = [round(total / count) for total in total_sums]
         return averages
-    
+
     class FeedbackProvider:
         """
         Provides feedback based on survey averages.
+        Maps average ratings to predefined feedback messages.
         """
         def __init__(self):
             self.feedback_messages = {
@@ -52,6 +61,7 @@ class SurveyDataAnalyzer:
         def provide_feedback(self, averages):
             """
             Provide feedback based on survey averages.
+            Prints feedback for each survey criterion.
             """
             print("\nFeedback Based on Averages:")
             criteria = [
@@ -67,20 +77,25 @@ class SurveyDataAnalyzer:
         def get_feedback_message(self, score):
             """
             Return feedback message based on the score.
+            Retrieves the message corresponding to the provided score.
             """
             return self.feedback_messages.get(score, "Invalid score.")
-
 
 class ReportExporter:
     """
     Exports survey analysis data to a CSV file.
+    Handles the creation of a CSV report in the 'reports' directory.
     """
     def __init__(self, survey_data_analyzer):
+        """
+        Initialize with a reference to the SurveyDataAnalyzer.
+        """
         self.survey_data_analyzer = survey_data_analyzer
 
     def export_analysis_to_csv(self):
         """
         Export the analysis data to a CSV file in the 'reports' directory.
+        Handles directory creation and file writing.
         """
         try:
             if not os.path.exists('reports'):
@@ -116,8 +131,13 @@ class ReportExporter:
 class Analysis:
     """
     Manages survey analysis, feedback, and reporting functionalities.
+    Integrates survey data analysis, feedback provision, and report exporting.
     """
     def __init__(self, google_sheet):
+        """
+        Initialize with a reference to the GoogleSheet instance.
+        Set up components for data analysis, feedback, and reporting.
+        """
         self.data_analyzer = SurveyDataAnalyzer(google_sheet.get_worksheet("survey"))
         self.feedback_provider = SurveyDataAnalyzer.FeedbackProvider()
         self.report_exporter = ReportExporter(self.data_analyzer)
@@ -126,6 +146,7 @@ class Analysis:
     def update_analysis_worksheet(self):
         """
         Update the analysis worksheet with the latest averages.
+        Appends a new row with the number of responses and average ratings.
         """
         averages = self.data_analyzer.calculate_averages()
         analysis_sheet = self.google_sheet.get_worksheet("analysis")
@@ -144,6 +165,7 @@ class Analysis:
     def display_functionality_menu(self):
         """
         Display functionality menu and handle user choices.
+        Provides options for printing averages, providing feedback, exporting data, and exiting.
         """
         while True:
             print("\nAvailable functionalities:")
@@ -162,7 +184,7 @@ class Analysis:
                 self.feedback_provider.provide_feedback(averages)
 
             elif choice == '3':
-                    self.handle_export_csv()
+                self.handle_export_csv()
 
             elif choice == '4':
                 print("Exiting functionality menu.")
@@ -174,6 +196,7 @@ class Analysis:
     def handle_export_csv(self):
         """
         Handle exporting analysis data to CSV with valid input.
+        Prompts the user to confirm the export action.
         """
         while True:
             export_choice = input("Do you want to export the analysis data to a CSV file? (yes/no):\n").strip().lower()
@@ -189,6 +212,7 @@ class Analysis:
     def print_survey_averages(self):
         """
         Retrieve and print survey averages.
+        Displays the average ratings for each survey criterion.
         """
         averages = self.data_analyzer.calculate_averages()
         print("\nSurvey Averages List:")
