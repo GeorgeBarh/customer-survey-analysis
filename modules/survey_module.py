@@ -17,9 +17,9 @@ class Survey:
         3 - Neutral experience
         4 - Good experience
         5 - Best experience
-        """)
+              """)
 
-        responses = []
+        responses = [] 
         last_customer_id = self.get_last_customer_id()  # Get the last customer ID
         current_customer_id = last_customer_id + 1  # Increment for the new customer
 
@@ -34,13 +34,13 @@ class Survey:
 
         for question in questions:
             while True:
-                response = input(question)
+                response = input(question)  
                 try:
                     validated_response = self.validate_response(response)  # Validate input
                     responses.append(validated_response)  # Add validated response
                     break
                 except ValueError as e:
-                    print(e)
+                    print(e)  
 
         return responses
 
@@ -50,7 +50,7 @@ class Survey:
         """
         try:
             response = int(response)
-            if 1 <= response <= 5:
+            if response >= 1 and response <= 5:
                 return response
             else:
                 raise ValueError("Number must be between 1 and 5.")
@@ -66,7 +66,7 @@ class Survey:
             last_row = data[-1]
             last_customer_id = int(last_row[0])  # Customer ID is in the first column
         else:
-            last_customer_id = 0  # Start with 1 if no data
+            last_customer_id = 1  # Start with 1 if no data
         return last_customer_id
 
     def update_survey_worksheet(self, data):

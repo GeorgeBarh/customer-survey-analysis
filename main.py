@@ -1,4 +1,3 @@
-
 import modules.google_sheet as gs
 import modules.survey_module as sm
 import modules.analysis_module as am
@@ -95,4 +94,5 @@ def main():
                 print("Exiting the program.")
                 break
 
+if __name__ == "__main__":
     main()

@@ -1,92 +1,201 @@
-import modules.google_sheet as gs
-import modules.survey_module as sm
-import modules.analysis_module as am
 
-def get_user_role():
-    """
-    Prompt the user for their role and return it.
-    """
-    while True:
-        user_role = input("Are you a customer or the owner? (Enter 'customer' or 'owner'): ").strip().lower()
-        if user_role in ['customer', 'owner']:
-            return user_role
-        else:
-            print("Invalid input. Please enter 'customer' or 'owner'.")
+import csv
+import os
 
-def handle_user_role(user_role, google_sheet):
+class SurveyDataAnalyzer:
     """
-    Handle the actions based on user role input.
+    Analyzes survey data and calculates averages.
     """
-    if user_role == 'customer':
-        handle_customer_role(google_sheet)
-    elif user_role == 'owner':
-        handle_owner_role(google_sheet)
-    else:
-        print("Invalid role. Please enter 'customer' or 'owner'.")
+    def __init__(self, survey_sheet):
+        self.survey_sheet = survey_sheet
 
-def handle_customer_role(google_sheet):
-    """
-    Handle actions for customer role.
-    """
-    try:
-        survey = sm.Survey(google_sheet)  # Pass the GoogleSheet instance to Survey
-        customer_responses = survey.get_customer_answers()
-        survey.update_survey_worksheet(customer_responses)
-    except Exception as e:
-        print(f"An error occurred while processing customer responses: {e}")
+    def get_survey_data(self):
+        """
+        Retrieve all survey responses.
+        """
+        data = self.survey_sheet.get_all_values()
+        return data[1:]  # Exclude the header row
 
-def validate_password():
-    """Verify the password for accessing the owner functionalities."""
-    try:
-        from password import PASSWORD
-    except ImportError:
-        print("Configuration file missing. Please ensure 'password.py' is present.")
-        exit(1)
+    def calculate_averages(self):
+        """
+        Calculate average ratings for each survey question.
+        """
+        data = self.get_survey_data()
+        total_sums = [0, 0, 0, 0]  # There are 4 questions in the survey
+        count = len(data)  # Number of responses (rows)
 
-    password = input("Enter the password 'owner': ").strip()
-    if password == PASSWORD:
-        print("Password correct. Proceeding with analysis...")
-        return True
-    else:
-        print("Incorrect password.")
-        return False
+        for row in data:
+            total_sums[0] += int(row[1])  # Overall satisfaction
+            total_sums[1] += int(row[2])  # Product quality
+            total_sums[2] += int(row[3])  # Customer support
+            total_sums[3] += int(row[4])  # Recommendation
 
-def handle_owner_role(google_sheet):
+        if count == 0:
+            return [0, 0, 0, 0]  # Avoid division by zero
+
+        averages = [round(total / count) for total in total_sums]
+        return averages
+    
+    class FeedbackProvider:
+        """
+        Provides feedback based on survey averages.
+        """
+        def __init__(self):
+            self.feedback_messages = {
+                1: "Extremely poor. Immediate action is required to address the issues.",
+                2: "Below expectations. Significant improvements are needed.",
+                3: "Average. Consider making improvements to enhance satisfaction.",
+                4: "Good. Keep up the good work, but look for areas to enhance further.",
+                5: "Excellent. Continue with the current practices to maintain high standards."
+            }
+
+        def provide_feedback(self, averages):
+            """
+            Provide feedback based on survey averages.
+            """
+            print("\nFeedback Based on Averages:")
+            criteria = [
+                "Overall Satisfaction",
+                "Product Quality",
+                "Customer Support",
+                "Recommendation"
+            ]
+
+            for average, criterion in zip(averages, criteria):
+                print(f"{criterion} ({average}): {self.get_feedback_message(average)}")
+
+        def get_feedback_message(self, score):
+            """
+            Return feedback message based on the score.
+            """
+            return self.feedback_messages.get(score, "Invalid score.")
+
+class ReportExporter:
     """
-    Handle actions for owner role.
+    Exports survey analysis data to a CSV file.
     """
-    if validate_password():
+    def __init__(self, survey_data_analyzer):
+        self.survey_data_analyzer = survey_data_analyzer
+
+    def export_analysis_to_csv(self):
+        """
+        Export the analysis data to a CSV file in the 'reports' directory.
+        """
         try:
-            analysis = am.Analysis(google_sheet)  # Pass the GoogleSheet instance to Analysis
-            analysis.update_analysis_worksheet()  # Update analysis worksheet with averages
-            analysis.display_functionality_menu()  # Show the functionality menu to the owner
+            if not os.path.exists('reports'):
+                os.makedirs('reports')  # Create the 'reports' directory if it doesn't exist
+
+            filename = 'reports/analysis_report.csv'  # Path to the CSV file
+
+            # Collect data
+            averages = self.survey_data_analyzer.calculate_averages()
+            total_responses = len(self.survey_data_analyzer.get_survey_data())
+
+            # Prepare data for CSV
+            headers = ["Metric", "Value"]
+            data = [
+                ["Total Responses", total_responses],
+                ["Average Overall Satisfaction", averages[0]],
+                ["Average Product Quality", averages[1]],
+                ["Average Customer Support", averages[2]],
+                ["Average Recommendation", averages[3]]
+            ]
+
+            # Write to CSV
+            with open(filename, mode='w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(headers)
+                writer.writerows(data)
+                
+            print(f"\nAnalysis data exported to {filename} successfully.")
+
         except Exception as e:
-            print(f"An error occurred while processing survey analysis: {e}")
+            print(f"\nAn error occurred while exporting to CSV: {e}")
 
-def get_user_continue_response():
+class Analysis:
     """
-    Ask the user if they want to perform another action.
+    Manages survey analysis, feedback, and reporting functionalities.
     """
-    while True:
-        answer = input("Do you want to perform another action? (yes/no): ").strip().lower()
-        if answer in ['yes', 'no']:
-            return answer
-        else:
-            print("Invalid input. Please enter 'yes' or 'no'.")
+    def __init__(self, google_sheet):
+        self.data_analyzer = SurveyDataAnalyzer(google_sheet.get_worksheet("survey"))
+        self.feedback_provider = SurveyDataAnalyzer.FeedbackProvider()
+        self.report_exporter = ReportExporter(self.data_analyzer)
+        self.google_sheet = google_sheet
 
-def main():
-    """
-    Run the appropriate module based on user input.
-    """
-    google_sheet = gs.GoogleSheet('customer_survey')  # Initialize GoogleSheet instance
+    def update_analysis_worksheet(self):
+        """
+        Update the analysis worksheet with the latest averages.
+        """
+        averages = self.data_analyzer.calculate_averages()
+        analysis_sheet = self.google_sheet.get_worksheet("analysis")
+        number_of_responses = len(self.data_analyzer.get_survey_data())
 
-    while True:
-        user_role = get_user_role()
-        handle_user_role(user_role, google_sheet)
+        data = [
+            number_of_responses,  # Number of responses
+            averages[0],  # Overall satisfaction
+            averages[1],  # Product quality
+            averages[2],  # Customer support
+            averages[3],  # Recommendation
+        ]
+        analysis_sheet.append_row(data)
+        print("Analysis worksheet updated successfully.")
 
-        continue_prompt = get_user_continue_response()
-        if continue_prompt != 'yes':
-            print("Exiting the program.")
-            break
+    def display_functionality_menu(self):
+        """
+        Display functionality menu and handle user choices.
+        """
+        while True:
+            print("\nAvailable functionalities:")
+            print("1. Print survey averages")
+            print("2. Provide feedback based on averages")
+            print("3. Export analysis to CSV")
+            print("4. Exit menu")
 
-main()
+            choice = input("Select a functionality (1-4): ").strip()
+
+            if choice == '1':
+                self.print_survey_averages()
+
+            elif choice == '2':
+                averages = self.data_analyzer.calculate_averages()
+                self.feedback_provider.provide_feedback(averages)
+
+            elif choice == '3':
+                    self.handle_export_csv()
+
+            elif choice == '4':
+                print("Exiting functionality menu.")
+                break
+
+            else:
+                print("Invalid choice. Please select a number between 1 and 4.")
+
+    def handle_export_csv(self):
+        """
+        Handle exporting analysis data to CSV with valid input.
+        """
+        while True:
+            export_choice = input("Do you want to export the analysis data to a CSV file? (yes/no): ").strip().lower()
+            if export_choice == 'yes':
+                self.report_exporter.export_analysis_to_csv()
+                break
+            elif export_choice == 'no':
+                print("Skipping export to CSV.")
+                break
+            else:
+                print("Invalid choice. Please enter 'yes' or 'no'.")
+
+    def print_survey_averages(self):
+        """
+        Retrieve and print survey averages.
+        """
+        averages = self.data_analyzer.calculate_averages()
+        print("\nSurvey Averages List:")
+        criteria = [
+            "Overall Satisfaction",
+            "Product Quality",
+            "Customer Support",
+            "Recommendation"
+        ]
+        for average, criterion in zip(averages, criteria):
+            print(f"{criterion}: {average}")
