@@ -90,11 +90,25 @@ def get_user_continue_response():
         except Exception as e:
             print(f"An error occurred while processing your input: {e}")
 
+def display_welcome_message():
+    """
+    Display the welcome message and program introduction.
+    """
+    print("Welcome to the Customer Survey Analysis Program!")
+    print("This program is designed for educational purposes.")
+    print("You can run the app any one of two roles:")
+    print("1. **Customer**: Complete the survey to provide feedback.")
+    print("2. **Owner**: Analyze the survey data and generate reports.")
+    print("\nPlease choose your role to proceed.\n")
+
+
 def main():
     """
     Run the appropriate module based on user input.
     Initializes the GoogleSheet instance and handles user role input.
     """
+    # Call the function to display the message
+    display_welcome_message()
     google_sheet = gs.GoogleSheet('customer_survey')  # Initialize GoogleSheet instance with the correct sheet name
 
     while True:
