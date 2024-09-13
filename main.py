@@ -67,33 +67,31 @@ def handle_owner_role(google_sheet):
         except Exception as e:
             print(f"An error occurred while processing survey analysis: {e}")
 
-def display_functionality_menu(analysis):
-    """
-    Display functionality menu and handle user choices."""
-
+def display_functionality_menu(self):
+    """Display functionality menu and handle user choices."""
     while True:
-        print("\nAvailable functionalities:")
+        print("Available functionalities:")
         print("1. Print survey averages")
-        print("2. Export analysis to CSV")
-        print("3. Provide feedback based on averages")
+        print("2. Provide feedback based on averages")
+        print("3. Export analysis to CSV")
         print("4. Exit menu")
 
         choice = input("Select a functionality (1-4): ").strip()
 
         if choice == '1':
-            analysis.print_survey_averages()
+            self.print_survey_averages()
 
         elif choice == '2':
+            self.provide_feedback()
+
+        elif choice == '3':
             export_choice = input("Do you want to export the analysis data to a CSV file? (yes/no): ").strip().lower()
             if export_choice == 'yes':
-                analysis.export_analysis_to_csv()  # Call without filename
+                self.export_analysis_to_csv()  # Call without filename
             elif export_choice == 'no':
                 print("Skipping export to CSV.")
             else:
                 print("Invalid choice. Please enter 'yes' or 'no'.")
-
-        elif choice == '3':
-            analysis.provide_feedback()  # Provide feedback based on averages
 
         elif choice == '4':
             print("Exiting functionality menu.")
