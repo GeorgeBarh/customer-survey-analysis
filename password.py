@@ -1,1 +1,1 @@
-PASSWORD = "1" #Example fixed password 
+PASSWORD = "owner" #Example fixed password 

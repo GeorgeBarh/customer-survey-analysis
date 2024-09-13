@@ -2,12 +2,29 @@ import modules.google_sheet as gs
 import modules.survey_module as sm
 import modules.analysis_module as am
 
+def validate_password():
+    """Verify the password for accessing the owner functionalities."""
+    try:
+        from password import PASSWORD
+    except ImportError:
+        print("Configuration file missing. Please ensure 'password.py' is present.")
+        exit(1)
+
+    print("The password is 'owner'. For evaluation purposes, the user is aware of the password")
+    password = input("Enter the password 'owner': ").strip()
+    if password == PASSWORD:
+        print("Password correct. Proceeding with analysis...")
+        return True
+    else:
+        print(f"Incorrect password. The correct password is '{PASSWORD}'.")
+        return False
+
 def handle_user_role(user_role, google_sheet):
     """
     Handle the actions based on user role input.
     """
     try:
-        if user_role == 'customers':
+        if user_role == 'customer':
             try:
                 survey = sm.Survey(google_sheet)  # Pass the GoogleSheet instance to Survey
                 customer_responses = survey.get_customer_answers()
@@ -16,13 +33,14 @@ def handle_user_role(user_role, google_sheet):
                 print(f"An error occurred while processing customer responses: {e}")
 
         elif user_role == 'owner':
-            try:
-                analysis = am.Analysis(google_sheet)  # Pass the GoogleSheet instance to Analysis
-                averages = analysis.calculate_averages()
-                analysis.update_analysis_worksheet(averages)
-                analysis.print_survey_averages()
-            except Exception as e:
-                print(f"An error occurred while processing survey analysis: {e}")
+            if validate_password():  
+                try:
+                    analysis = am.Analysis(google_sheet)  # Pass the GoogleSheet instance to Analysis
+                    averages = analysis.calculate_averages()
+                    analysis.update_analysis_worksheet(averages)
+                    analysis.print_survey_averages()
+                except Exception as e:
+                    print(f"An error occurred while processing survey analysis: {e}")
 
         else:
             print("Invalid role. Please enter 'customer' or 'owner'.")
