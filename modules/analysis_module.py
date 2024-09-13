@@ -1,3 +1,6 @@
+import csv
+import os
+
 class Analysis:
     """
     Handles survey data analysis.
@@ -63,3 +66,38 @@ class Analysis:
         print("\nSurvey Averages:")
         for header, value in zip(headers, latest_data):
             print(f"{header} {value}")
+
+            #Second function of analysis
+
+    def export_analysis_to_csv(self):
+        """
+        Export the analysis data to a CSV file with a fixed path.
+        """
+        fixed_filename = 'analysis_report.csv'  # Fixed path and filename
+        try:
+            # Collect data
+            averages = self.calculate_averages()
+            total_responses = len(self.get_survey_data())
+
+            # Prepare data for CSV
+            headers = [
+                "Metric", "Value"
+            ]
+            data = [
+                ["Total Responses", total_responses],
+                ["Average Overall Satisfaction", averages[0]],
+                ["Average Product Quality", averages[1]],
+                ["Average Customer Support", averages[2]],
+                ["Average Recommendation", averages[3]]
+            ]
+
+            # Write to CSV
+            with open(fixed_filename, mode='w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(headers)
+                writer.writerows(data)
+                
+            print(f"Analysis data exported to {fixed_filename} successfully.")
+
+        except Exception as e:
+            print(f"An error occurred while exporting to CSV: {e}")
