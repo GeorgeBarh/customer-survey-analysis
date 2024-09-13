@@ -51,12 +51,12 @@ class SurveyDataAnalyzer:
         """
         def __init__(self):
             self.feedback_messages = {
-                1: "Extremely poor. Immediate action is required to address the issues.",
-                2: "Below expectations. Significant improvements are needed.",
-                3: "Average. Consider making improvements to enhance satisfaction.",
-                4: "Good. Keep up the good work, but look for areas to enhance further.",
-                5: "Excellent. Continue with the current practices to maintain high standards."
-            }
+                1: "Extremely poor.\nImmediate action is required to address the issues.",
+                2: "Below expectations.\nSignificant improvements are needed.",
+                3: "Average.\nConsider making improvements to enhance satisfaction.",
+                4: "Good.\nKeep up the good work, but look for areas to enhance further.",
+                5: "Excellent.\nContinue with the current practices to maintain high standards."
+                }
 
         def provide_feedback(self, averages):
             """
