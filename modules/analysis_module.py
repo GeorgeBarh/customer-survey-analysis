@@ -68,15 +68,32 @@ class Analysis:
             print(f"{header} {value}")
 
             #Second function of analysis
+    def get_feedback_message(self,score, criterion):
+        """
+        Return feedback message based on the score for a given criterion.
+        """
+        # Feedback messages for different score levels
+        feedback_messages = {
+            1: f"{criterion} is extremely poor. Immediate action is required to address the issues.",
+            2: f"{criterion} is below expectations. Significant improvements are needed.",
+            3: f"{criterion} is average. Consider making improvements to enhance satisfaction.",
+            4: f"{criterion} is good. Keep up the good work, but look for areas to enhance further.",
+            5: f"{criterion} is excellent. Continue with the current practices to maintain high standards."
+        }
+
+        # Return the feedback message for the score or a default message if invalid
+        return feedback_messages.get(score, "Invalid score")
+
 
     def provide_feedback(self):
         """
         Provide feedback based on survey averages.
         """
-        averages = self.calculate_averages()
+        averages = self.calculate_averages()  # Calculate survey averages
 
         print("\nFeedback Based on Averages:")
-        # Changed from 'metric_names' to 'criteria'
+    
+        # List of criteria corresponding to each average value
         criteria = [
         "Overall Satisfaction",
         "Product Quality",
@@ -84,8 +101,14 @@ class Analysis:
         "Recommendation"
         ]
 
+        # Loop through each average score and its corresponding criterion
         for average, criterion in zip(averages, criteria):
-            print(get_feedback_message(average, criterion))
+            # Convert average to an integer score (assuming score is rounded to the nearest whole number)
+            rounded_score = round(average)
+        
+            # Print feedback for the criterion based on the rounded score
+            print(self.get_feedback_message(rounded_score, criterion))
+
 
 
             #Third function of analysis
