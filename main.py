@@ -7,7 +7,7 @@ def handle_user_role(user_role, google_sheet):
     Handle the actions based on user role input.
     """
     try:
-        if user_role == 'customer':
+        if user_role == 'customers':
             try:
                 survey = sm.Survey(google_sheet)  # Pass the GoogleSheet instance to Survey
                 customer_responses = survey.get_customer_answers()
