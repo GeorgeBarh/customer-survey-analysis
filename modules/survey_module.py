@@ -9,7 +9,7 @@ class Survey:
         """
         collect customer survey responses and assign a new customer id
         """
-        print("\nPlease rate your customer experience in the next four questions.\n")
+        print("\nPlease rate your customer experience in the next four questions.")
         print("Data must be a number from 1-5 based on the following:")
         print("""
         1 - Bad experience

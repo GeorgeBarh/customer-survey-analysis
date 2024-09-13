@@ -11,14 +11,12 @@ def handle_user_role(user_role, google_sheet):
             handle_customer_role(google_sheet)
 
         elif user_role == 'owner':
-            if validate_password():  # Only proceed if the password is correct
-                handle_owner_role(google_sheet)
-            else:
-                print("Access denied. You cannot proceed with owner functionalities.")
+            handle_owner_role(google_sheet)
 
         else:
             print("Invalid role. Please enter 'customer' or 'owner'.")
             return False
+    
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
         return False
@@ -78,7 +76,7 @@ def display_functionality_menu(analysis):
         print("3. Exit")
 
         choice = input("Select a functionality (1-3): ").strip()
-        print("\n")
+        print(" ")
 
         if choice == '1':
             analysis.print_survey_averages()

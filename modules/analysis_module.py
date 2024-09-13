@@ -37,7 +37,7 @@ class Analysis:
         """
         Update the analysis worksheet with the latest averages.
         """
-        print("Updating analysis worksheet with averages...\n")
+        print("Updating analysis worksheet with averages...")
         number_of_responses = len(self.get_survey_data())  # Total number of responses
 
         data = [
@@ -63,7 +63,7 @@ class Analysis:
         headers = rows[0]  # Headers are in the first row
         latest_data = rows[-1]  # Latest data is in the last row
 
-        print("\nSurvey Averages:")
+        print("Survey Averages:")
         for header, value in zip(headers, latest_data):
             print(f"{header} {value}")
 
