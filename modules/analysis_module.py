@@ -68,22 +68,21 @@ class Analysis:
             print(f"{header} {value}")
 
             #Second function of analysis
-    def get_feedback_message(self,score, criterion):
+    def get_feedback_message(self, score, criterion):
         """
         Return feedback message based on the score for a given criterion.
         """
         # Feedback messages for different score levels
         feedback_messages = {
-            1: f"{criterion} is extremely poor. Immediate action is required to address the issues.",
-            2: f"{criterion} is below expectations. Significant improvements are needed.",
-            3: f"{criterion} is average. Consider making improvements to enhance satisfaction.",
-            4: f"{criterion} is good. Keep up the good work, but look for areas to enhance further.",
-            5: f"{criterion} is excellent. Continue with the current practices to maintain high standards."
+            1: f"{criterion} is {score}. Extremely poor. Immediate action is required to address the issues.",
+            2: f"{criterion} is {score}. Below expectations. Significant improvements are needed.",
+            3: f"{criterion} is {score}. Average. Consider making improvements to enhance satisfaction.",
+            4: f"{criterion} is {score}. Good. Keep up the good work, but look for areas to enhance further.",
+            5: f"{criterion} is {score}. Excellent. Continue with the current practices to maintain high standards."
         }
 
         # Return the feedback message for the score or a default message if invalid
-        return feedback_messages.get(score, "Invalid score")
-
+        return feedback_messages.get(score, f"{criterion} has an invalid score: {score}.")
 
     def provide_feedback(self):
         """

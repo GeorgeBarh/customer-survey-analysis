@@ -68,36 +68,39 @@ def handle_owner_role(google_sheet):
             print(f"An error occurred while processing survey analysis: {e}")
 
 def display_functionality_menu(analysis):
-    """Display functionality menu and handle user choices."""
+    """
+    Display functionality menu and handle user choices."""
+
     while True:
         print("\nAvailable functionalities:")
         print("1. Print survey averages")
         print("2. Export analysis to CSV")
-        print("3. Exit menu")
+        print("3. Provide feedback based on averages")
+        print("4. Exit menu")
 
-        choice = input("Select a functionality (1-3): ").strip()
+        choice = input("Select a functionality (1-4): ").strip()
 
         if choice == '1':
             analysis.print_survey_averages()
 
         elif choice == '2':
-            while True:  # Inner loop for handling CSV export choice
-                export_choice = input("Do you want to export the analysis data to a CSV file? (yes/no): ").strip().lower()
-                if export_choice == 'yes':
-                    analysis.export_analysis_to_csv()  # Call without filename
-                    break  # Exit the loop after successful export
-                elif export_choice == 'no':
-                    print("Skipping export to CSV.")
-                    break  # Exit the loop if user chooses not to export
-                else:
-                    print("Invalid choice. Please enter 'yes' or 'no'.")  # Ask again
+            export_choice = input("Do you want to export the analysis data to a CSV file? (yes/no): ").strip().lower()
+            if export_choice == 'yes':
+                analysis.export_analysis_to_csv()  # Call without filename
+            elif export_choice == 'no':
+                print("Skipping export to CSV.")
+            else:
+                print("Invalid choice. Please enter 'yes' or 'no'.")
 
         elif choice == '3':
+            analysis.provide_feedback()  # Provide feedback based on averages
+
+        elif choice == '4':
             print("Exiting functionality menu.")
             break
 
         else:
-            print("Invalid choice. Please select a number between 1 and 3.")
+            print("Invalid choice. Please select a number between 1 and 4.")
 
 def get_user_continue_response():
     """
