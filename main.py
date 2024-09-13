@@ -39,6 +39,14 @@ def handle_user_role(user_role, google_sheet):
                     averages = analysis.calculate_averages()
                     analysis.update_analysis_worksheet(averages)
                     analysis.print_survey_averages()
+                    
+                    # Ask the owner if they want to export the analysis to CSV
+                    export_choice = input("Do you want to export the analysis data to a CSV file? (yes/no): ").strip().lower()
+                    if export_choice == 'yes':
+                        analysis.export_analysis_to_csv()  # Call without filename
+                    elif export_choice == 'no':
+                        print("Skipping export to CSV.")
+
                 except Exception as e:
                     print(f"An error occurred while processing survey analysis: {e}")
 
