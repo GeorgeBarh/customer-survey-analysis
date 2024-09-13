@@ -1,6 +1,7 @@
 import gspread
 from google.oauth2.service_account import Credentials
 
+
 class GoogleSheet:
     """
     Handles Google Sheets API authorization and worksheet access.
