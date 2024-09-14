@@ -128,13 +128,11 @@ class ReportExporter:
         except Exception as e:
             print(f"\nAn error occurred while exporting to CSV: {e}")
 
-
     def print_csv_contents(self):
         """
         Print the contents of the CSV file.
         Reads the file and prints its content to the console.
         """
-        
         filename = 'reports/analysis_report.csv'
         try:
             if not os.path.exists(filename):
@@ -142,10 +140,9 @@ class ReportExporter:
                 return
 
             with open(filename, mode='r') as file:
-                reader = csv.reader(file)
+                content = file.read()  # Read the entire content of the CSV file
                 print("\nContents of the CSV file:")
-                for row in reader:
-                    print(row)
+                print(content)  # Print the content as plain text
 
         except Exception as e:
             print(f"\nAn error occurred while reading the CSV file: {e}")
@@ -187,16 +184,17 @@ class Analysis:
     def display_functionality_menu(self):
         """
         Display functionality menu and handle user choices.
-        Provides options for printing averages, providing feedback, exporting data, and exiting.
+        Provides options for printing averages, providing feedback, exporting data, printing CSV contents, and exiting.
         """
         while True:
             print("\nAvailable functionalities:")
             print("1. Print survey averages")
             print("2. Provide feedback based on averages")
             print("3. Export analysis to CSV")
-            print("4. Exit menu")
+            print("4. Print CSV file contents")
+            print("5. Exit menu")
 
-            choice = input("Select a functionality (1-4): \n").strip()
+            choice = input("Select a functionality (1-5): \n").strip()
 
             if choice == '1':
                 self.print_survey_averages()
@@ -209,11 +207,14 @@ class Analysis:
                 self.handle_export_csv()
 
             elif choice == '4':
+                self.report_exporter.print_csv_contents()
+
+            elif choice == '5':
                 print("Exiting functionality menu.")
                 break
 
             else:
-                print("Invalid choice. Please select a number between 1 and 4.")
+                print("Invalid choice. Please select a number between 1 and 5.")
 
     def handle_export_csv(self):
         """
@@ -230,6 +231,22 @@ class Analysis:
                 break
             else:
                 print("Invalid choice. Please enter 'yes' or 'no'.")
+
+    def print_survey_averages(self):
+        """
+        Retrieve and print survey averages.
+        Displays the average ratings for each survey criterion.
+        """
+        averages = self.data_analyzer.calculate_averages()
+        print("\nSurvey Averages List:")
+        criteria = [
+            "Overall Satisfaction",
+            "Product Quality",
+            "Customer Support",
+            "Recommendation"
+        ]
+        for average, criterion in zip(averages, criteria):
+            print(f"{criterion}: {average}")
 
     def print_survey_averages(self):
         """
