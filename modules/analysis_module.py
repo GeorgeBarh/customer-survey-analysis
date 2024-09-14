@@ -1,4 +1,3 @@
-
 import os
 import csv
 
@@ -218,16 +217,23 @@ class Analysis:
                 self.feedback_provider.provide_feedback(averages)
 
             elif choice == '3':
-                # Prompt user to export analysis to CSV
-                self.handle_export_csv()  # Ask about exporting and perform export if confirmed
+                self.handle_export_csv()
 
             elif choice == '4':
-                # Print CSV file contents
                 self.report_exporter.print_csv_contents()
 
             elif choice == '5':
-                print("Exiting functionality menu.")
-                break
+                # Ask if the user wants to perform another action
+                while True:
+                    continue_choice = input("Would you like to perform any other actions? (yes/no):\n").strip().lower()
+                    if continue_choice == 'yes':
+                        print("Returning to the main menu...")
+                        return  # Exit the current loop and restart the main menu
+                    elif continue_choice == 'no':
+                        print("Thank you for using the program. Exiting now.")
+                        exit()  # Exit the program
+                    else:
+                        print("Please enter 'yes' or 'no'.")
 
             else:
                 print("Invalid choice. Please select a number between 1 and 5.")
