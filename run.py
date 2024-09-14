@@ -11,7 +11,7 @@ def handle_user_role(user_role, google_sheet):
     """
     try:
         if user_role == 'exit':
-            print("Exiting the program.")
+            print("Exit the program.")
             sys.exit()  # Exit the program immediately
 
         if user_role == 'customer':
@@ -118,7 +118,7 @@ def main():
         if handle_user_role(user_role, google_sheet):
             continue_prompt = get_user_continue_response()
             if continue_prompt != 'yes':
-                print("Exiting the program.")
+                print("Exit the program.")
                 break
 
 main()
