@@ -5,7 +5,7 @@ class Survey:
     """
     def __init__(self, google_sheet):
         """
-        Initialize Survey class with Google Sheets worksheet for survey.
+        Initialize the Survey class with the Google Sheets worksheet for survey.
         """
         self.sheet = google_sheet.get_worksheet("survey")  # Get the "survey" worksheet from Google Sheets
 
@@ -78,7 +78,7 @@ class Survey:
 
     def update_survey_worksheet(self, data):
         """
-        Update survey worksheet with new row of data.
+        Update the survey worksheet with a new row of data.
         Appends the collected responses to the Google Sheets worksheet.
         """
         self.sheet.append_row(data)  # Append the new row of data to the worksheet
