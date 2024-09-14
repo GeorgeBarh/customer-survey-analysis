@@ -115,7 +115,7 @@ class ReportExporter:
             # Prepare data for CSV
             headers = ["Metric", "Value", "Feedback"]
             data = [
-                ["Total Responses", str(total_responses)," - "],
+                ["Total Responses", str(total_responses), ""],
                 ["Average Overall Satisfaction", str(averages[0]), feedback[0]],
                 ["Average Product Quality", str(averages[1]), feedback[1]],
                 ["Average Customer Support", str(averages[2]), feedback[2]],
@@ -126,8 +126,9 @@ class ReportExporter:
             with open(filename, mode='w', newline='', encoding='utf-8') as file:
                 writer = csv.writer(file, quoting=csv.QUOTE_MINIMAL)
                 writer.writerow(headers)
-                writer.writerows(data)
-                
+                for row in data:
+                    writer.writerow([field.replace('\n', ' ').replace('"', '""') for field in row])
+
             print(f"\nAnalysis data exported to {filename} successfully.")
 
         except Exception as e:
