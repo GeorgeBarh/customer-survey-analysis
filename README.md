@@ -18,7 +18,7 @@ You can access the Google Spreadsheet [here](https://docs.google.com/spreadsheet
 
 ## 1. Project Overview
 
-The Customer Survey Analysis Program aims to facilitate efficient collection and analysis of customer feedback. This project leverages Google Sheets for data storage and uses Python to handle different roles, process survey responses, and generate analytical reports. The application is designed to provide valuable insights into customer satisfaction and identify areas for improvement.
+The Customer Survey Analysis Program aims to facilitate the efficient collection and analysis of customer feedback. This project leverages Google Sheets for data storage and uses Python to handle different roles, process survey responses, and generate analytical reports. The application is designed to provide valuable insights into customer satisfaction and identify areas for improvement.
 
 ### 1.1 User Stories
 
@@ -77,7 +77,7 @@ The data is stored in a Google Sheets document with separate worksheets for surv
 
 Manages authentication and access to Google Sheets through the API, providing functionality to interact with specific worksheets within a Google Sheets document.
 
-- **init**(self, sheet_name)
+- ****init****(self, sheet_name)
 
 Sets up the Google Sheets API client with necessary credentials and scopes. Opens the Google Sheets document specified by **sheet_name**.
 
@@ -121,7 +121,7 @@ Displays a welcome message introducing the program and informing the user about 
 
 Handles customer survey responses by collecting, validating, and updating data in the Google Sheets worksheet.
 
-- **init**(self, google_sheet)
+- ****init****(self, google_sheet)
 
 Initializes the **Survey** class with a reference to the Google Sheets worksheet designated for survey responses.
 
@@ -145,7 +145,7 @@ Updates the survey worksheet with a new row of data, including customer response
 
 Manages the analysis of survey data, provides feedback, and exports analysis results to a CSV file.
 
-- **init**(self, google_sheet)
+- ****init****(self, google_sheet)
 
 Initializes the **Analysis** class with references to components needed for data analysis, including **SurveyDataAnalyzer**, **FeedbackProvider**, and **ReportExporter**.
 
@@ -173,7 +173,7 @@ Retrieves and prints the average ratings for each survey criterion.
 
 Provides feedback messages based on average survey ratings, mapping average scores to predefined feedback.
 
-- **init**(self)
+- ****init****(self)
 
 Initializes the **FeedbackProvider** with a set of predefined feedback messages corresponding to different average scores.
 
@@ -189,7 +189,7 @@ Returns the feedback message associated with a specific score.
 
 Handles exporting survey analysis data to a CSV file and printing the file’s contents.
 
-- **init**(self, survey_data_analyzer)
+- ****init****(self, survey_data_analyzer)
 
 Initializes the **ReportExporter** with a reference to the **SurveyDataAnalyzer** instance for accessing survey data.
 
@@ -222,7 +222,46 @@ Reads and prints the contents of the CSV file to the console.
 - **Date-based Analysis**: Analyze survey data based on specific timeframes such as weekly, monthly, or quarterly.
 - **Trends and Insights**: Generate reports or visualizations to highlight trends over time.
 
-## 5. Deployment
+## 4. Testing
+
+### Manual Testing
+
+1. **Code Review**: Passed the code through flake8 for PEP8 compliance. No major issues were found.
+2. **Input Validation**: Tested with invalid inputs in all cases:
+   - Strings where numbers were expected.
+   - Numbers outside the valid range.
+   - Numbers where strings were required.
+3. **Environment Testing**: Tested in the local terminal and Code Institute Heroku terminal.
+
+### 5. Bugs
+
+Initially, I used a procedural programming approach for the project. However, during the process of refactoring the code to adopt object-oriented programming principles, I encountered and resolved several bugs. The transition aimed to improve code organization and maintainability by introducing classes and objects. Most of the troubles were related to:
+
+- **Refactoring Issues**: Challenges in restructuring code to fit an object-oriented paradigm, including adapting functions to methods and managing class interactions.
+- **Inheritance Problems**: Difficulties in establishing correct parent-child relationships between classes and ensuring that inherited methods and properties functioned as intended.
+
+#### Solved Bugs:
+
+- **Bug 1**: An error occurred while processing survey analysis due to an undefined method.  
+  **Solution**: Added the appropriate method reference.
+
+- **Bug 2**: An error occurred because a required argument was missing when appending a row to the worksheet.  
+  **Solution**: Passed the necessary data as an argument to the method.
+
+- **Bug 3**: The method for printing CSV contents was displaying data as a list instead of a comma-separated string.  
+  **Solution**: Adjusted the method to join list items into a string for proper display.
+
+- **Bug 4**: If the user chose to exit the menu, the program did not ask if they wanted to proceed or exit.  
+  **Solution**: Implemented a prompt to confirm whether the user wanted to perform another action or exit.
+
+- **Bug 5**: At the start of the program, there was no option to exit.  
+  **Solution**: Added an option to exit the program at the initial user interface.
+
+### Validator Testing
+
+Installed flake8 in VS Code and passed the code for evaluation. Only a few major errors were displayed. Some lines were longer than expected (mostly due to inline comments) and a few unnecessary whitespaces were found.
+
+## 6. Deployment
 
 The project is deployed using Code Institute's Mock Terminal for Heroku.
 
@@ -245,7 +284,7 @@ The project is deployed using Code Institute's Mock Terminal for Heroku.
 
 7. **Link the Heroku App to the Repository**: Connect your Heroku app to the Git repository where your code is hosted.
 
-## 6. Credits
+## 7. Credits
 
 ### Contributors
 
