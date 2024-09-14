@@ -32,7 +32,7 @@ class Survey:
             "How would you rate your overall satisfaction with our service? (1-5): \n",
             "How satisfied are you with the quality of the product you received? (1-5): \n",
             "How would you rate your experience with our customer support team? (1-5): \n",
-            "How likely are you to recommend our product/service to a friend or colleague? (1-5): \n"
+            "Would you to recommend our product/service to a friend or colleague? (1-5): \n"
         ]
 
         responses.append(current_customer_id)  # Add the new customer ID to the responses
