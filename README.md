@@ -244,3 +244,25 @@ The project is deployed using Code Institute's Mock Terminal for Heroku.
 6. **Click on Deploy**: Deploy the application by triggering the deployment process through the Heroku dashboard or terminal.
 
 7. **Link the Heroku App to the Repository**: Connect your Heroku app to the Git repository where your code is hosted.
+
+## 6. Credits
+
+### Contributors
+
+- **George**: Primary developer.
+- [**Code Institute**](https://codeinstitute.net/global/): Additional development and support.
+
+### Libraries and Tools
+
+- **Google Sheets API**: For managing and storing survey data.
+- **gspread**: Python library used for interacting with Google Sheets.
+- **Python**: Programming language used for developing the application.
+- **Heroku**: Platform for deploying the application.
+- [**Code Institute**](https://codeinstitute.net/global/): For providing the Python Essentials Template and mock terminal for Heroku deployment.
+
+### Resources
+
+- [**Stack Overflow**](https://stackoverflow.com/): For troubleshooting and code-related questions.
+- [**ChatGPT**](https://chat.openai.com/) : For assistance with programming queries and code explanations.
+- [**Make a README**](https://www.makeareadme.com/): For providing guidance on structuring and formatting the README.
+- [**AmiResponsive**](https://ui.dev/amiresponsive) : For generating responsive design screenshots.
