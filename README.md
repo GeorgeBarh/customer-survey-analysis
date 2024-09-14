@@ -9,14 +9,12 @@ You can access the live version of the application [here](https://customer-surve
 ## Table of Contents
 
 1. [Project Overview](#project-overview)
-   1.1 [User Stories](#user-stories)
 2. [Design and Architecture](#design-and-architecture)
-3. [Data Model](#data-model)
-4. [Features](#features)
-5. [Deployment](#deployment)
-6. [Credits](#credits)
+3. [Features](#features)
+4. [Deployment](#deployment)
+5. [Credits](#credits)
 
-## Project Overview
+## 1. Project Overview
 
 The Customer Survey Analysis Program aims to facilitate efficient collection and analysis of customer feedback. This project leverages Google Sheets for data storage and uses Python to handle different roles, process survey responses, and generate analytical reports. The application is designed to provide valuable insights into customer satisfaction and identify areas for improvement.
 
@@ -34,7 +32,7 @@ The Customer Survey Analysis Program aims to facilitate efficient collection and
 - **Update Analysis**: See real-time updates of survey results and feedback in the Google Sheets analysis worksheet.
 - **Print and Review**: Print or view the contents of the generated CSV file to review the analysis data.
 
-## Design and Architecture
+## 2. Design and Architecture
 
 ### Modular Design
 
@@ -56,7 +54,7 @@ The application utilizes object-oriented programming principles to enhance the d
 
 This object-oriented design pattern enhances code readability, reusability, and maintainability, aligning with best practices in software development.
 
-## Data Model
+### Data Model
 
 The project uses the following data model to structure and store survey responses:
 
@@ -68,3 +66,133 @@ The project uses the following data model to structure and store survey response
   - **Recommendation**: Rating from 1 to 5.
 
 The data is stored in a Google Sheets document with separate worksheets for survey responses and analysis results.
+
+## 3. Features
+
+### 3.1 Google Sheet Integration (GoogleSheet)
+
+Manages authentication and access to Google Sheets through the API, providing functionality to interact with specific worksheets within a Google Sheets document.
+
+- **init**(self, sheet_name)
+
+Sets up the Google Sheets API client with necessary credentials and scopes. Opens the Google Sheets document specified by **sheet_name**.
+
+- **get_worksheet**(self, worksheet_name)
+
+Fetches a worksheet object by its name, allowing operations such as reading and writing data to the specified worksheet.
+
+### 3.2 Main (run.py)
+
+The **run.py** script serves as the central controller of the application. It is responsible for initializing components, managing user interactions, and directing the flow based on user roles.
+
+- **main**()
+
+The **main()** function initiates the program by displaying a welcome message, initializing the Google Sheets connection, and entering a loop to process user inputs and role-based actions.
+
+- **handle_user_role**(user_role, google_sheet)
+
+Determines the appropriate action based on the user’s role input. It either directs the user to customer-specific or owner-specific functionalities or exits the program. It also handles exceptions that may occur during the process.
+
+- **handle_customer_role**(google_sheet)
+
+Handles operations for the customer role, including creating a **Survey** instance, collecting responses, and updating the Google Sheet with the collected data.
+
+- **validate_password**()
+
+Validates the password required for accessing owner functionalities. Prompts the user to enter the password and verifies it against a predefined value. Provides feedback on password validity.
+
+- **handle_owner_role**(google_sheet)
+
+Manages the owner role, which involves validating the password, performing survey analysis, and presenting various functionalities related to data analysis.
+
+- **get_user_continue_response**()
+
+Asks the user if they want to perform another action. Continuously prompts until a valid response (**'yes'** or **'no'**) is received.
+
+- **display_welcome_message**()
+
+Displays a welcome message introducing the program and informing the user about the available roles and their purposes.
+
+### 3.3 Survey Module (Survey)
+
+Handles customer survey responses by collecting, validating, and updating data in the Google Sheets worksheet.
+
+- **init**(self, google_sheet)
+
+Initializes the **Survey** class with a reference to the Google Sheets worksheet designated for survey responses.
+
+- **get_customer_answers**(self)
+
+Collects responses from customers through a series of questions, validates the input, and assigns a unique customer ID.
+
+- **validate_response**(self, response)
+
+Validates the customer responses to ensure they are numeric values between **1** and **5**.
+
+- **get_last_customer_id**(self)
+
+Retrieves the last customer ID from the survey worksheet to generate a new, unique ID for the current customer.
+
+- **update_survey_worksheet**(self, data)
+
+Updates the survey worksheet with a new row of data, including customer responses.
+
+### 3.4 Analysis Module (Analysis)
+
+Manages the analysis of survey data, provides feedback, and exports analysis results to a CSV file.
+
+- **init**(self, google_sheet)
+
+Initializes the **Analysis** class with references to components needed for data analysis, including **SurveyDataAnalyzer**, **FeedbackProvider**, and **ReportExporter**.
+
+- **update_analysis_worksheet**(self)
+
+Updates the analysis worksheet with the latest survey averages and the number of responses.
+
+- **display_functionality_menu**(self)
+
+Displays a menu of available functionalities for analyzing and exporting survey data, and handles user selections.
+
+- **handle_export_csv**(self)
+
+Prompts the user to confirm exporting analysis data to a CSV file and handles the export process.
+
+- **import_csv_to_report**(self, csv_file_path)
+
+Imports data from a CSV file into the **'report'** worksheet of Google Sheets.
+
+- **print_survey_averages**(self)
+
+Retrieves and prints the average ratings for each survey criterion.
+
+- **FeedbackProvider Class**
+
+Provides feedback messages based on average survey ratings, mapping average scores to predefined feedback.
+
+- **init**(self)
+
+Initializes the **FeedbackProvider** with a set of predefined feedback messages corresponding to different average scores.
+
+- **provide_feedback**(self, averages)
+
+Prints feedback messages based on the calculated survey averages.
+
+- **get_feedback_message**(self, score)
+
+Returns the feedback message associated with a specific score.
+
+- **ReportExporter Class**
+
+Handles exporting survey analysis data to a CSV file and printing the file’s contents.
+
+- **init**(self, survey_data_analyzer)
+
+Initializes the **ReportExporter** with a reference to the **SurveyDataAnalyzer** instance for accessing survey data.
+
+- **export_analysis_to_csv**(self)
+
+Exports analysis data to a CSV file, including creating directories, writing data, and handling file operations.
+
+- **print_csv_contents**(self)
+
+Reads and prints the contents of the CSV file to the console.
