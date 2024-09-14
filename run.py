@@ -1,6 +1,7 @@
 import modules.google_sheet as gs
 import modules.survey_module as sm
 import modules.analysis_module as am
+import sys
 
 def handle_user_role(user_role, google_sheet):
     """
@@ -9,6 +10,10 @@ def handle_user_role(user_role, google_sheet):
     Prints an error message for invalid roles and handles exceptions.
     """
     try:
+        if user_role == 'exit':
+            print("Exiting the program.")
+            sys.exit()  # Exit the program immediately
+
         if user_role == 'customer':
             handle_customer_role(google_sheet)  # Handle actions specific to customers
 
@@ -16,7 +21,7 @@ def handle_user_role(user_role, google_sheet):
             handle_owner_role(google_sheet)  # Handle actions specific to owners
 
         else:
-            print("Invalid role. Please enter 'customer' or 'owner'.")
+            print("Invalid role. Please enter 'customer' or 'owner' or 'exit'.")
 
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
@@ -107,7 +112,7 @@ def main():
     google_sheet = gs.GoogleSheet('customer_survey')  # Initialize GoogleSheet instance
 
     while True:
-        user_role = input("Are you a customer or the owner? (Enter 'customer' or 'owner'): \n").strip().lower()
+        user_role = input("Are you a customer or the owner? (Enter 'customer' or 'owner' or 'exit' to stop the program'): \n").strip().lower()
         if handle_user_role(user_role, google_sheet):
             continue_prompt = get_user_continue_response()
             if continue_prompt != 'yes':
