@@ -99,7 +99,7 @@ Handles operations for the customer role, including creating a **Survey** instan
 
 - **validate_password**()
 
-Validates the password required for accessing owner functionalities. Prompts the user to enter the password and verifies it against a predefined value. Provides feedback on password validity.
+Validates the password required for accessing owner functionalities. The password is known to the user before the program asks them to enter it, which allows the program to be evaluated effectively. The password is checked against a predefined value. The _password.py_ file containing the password is not included in the _.gitignore_ file to facilitate deployment on Heroku.
 
 - **handle_owner_role**(google_sheet)
 
@@ -196,3 +196,49 @@ Exports analysis data to a CSV file, including creating directories, writing dat
 - **print_csv_contents**(self)
 
 Reads and prints the contents of the CSV file to the console.
+
+### Potential Features
+
+#### Order Tracking and Survey Comparison
+
+- **Track Orders**: Integrate an order tracking system to record and manage customer orders.
+- **Survey Submission Comparison**: Implement a feature that calculates and compares the number of survey submissions against the total number of orders to determine the survey response rate.
+
+#### Survey Tracking by Customer ID
+
+- **Track Specific Surveys**: Allow the owner to track individual surveys by customer ID, including:
+  - **View Responses**: Retrieve and view responses for a specific customer ID.
+  - **Update or Edit Responses**: Provide options to update or correct responses.
+  - **Search and Filter**: Enable search and filter options to quickly locate specific survey entries.
+
+#### Date Tracking for Survey Submissions
+
+- **Timestamp Submissions**: Add a timestamp to each survey submission to track when feedback was provided.
+- **Date Column**: Include a date column in the survey worksheet.
+- **Date-based Analysis**: Analyze survey data based on specific timeframes such as weekly, monthly, or quarterly.
+- **Trends and Insights**: Generate reports or visualizations to highlight trends over time.
+
+## 5. Deployment
+
+The project is deployed using Code Institute's Mock Terminal for Heroku.
+
+### Steps:
+
+1. **Clone the Python Essentials Template from Code Institute**: Start by cloning the template repository provided by Code Institute to use as a base for your project.
+
+2. **Create a New Heroku App**: Set up a new application on Heroku to host your project.
+
+3. **Set Two Config Vars**: Configure the necessary environment variables:
+
+   - **CREDS**: Add your credentials for Google Sheets API.
+   - **PASSWORD**: Provide the password for owner access (note that the password file is not included in the _.gitignore_ file for assessment purposes).
+
+4. **Set the Buildpacks to Python and Node.js**: Ensure that the Heroku app is set to use both Python and Node.js buildpacks to handle the project's dependencies.
+
+5. **Link the Heroku App to the Repository**: Connect your Heroku app to the Git repository where your code is hosted.
+
+6. **Click on Deploy**: Deploy the application by triggering the deployment process through the Heroku dashboard or terminal.
+
+7. **Link the Heroku App to the Repository**: Connect your Heroku app to the Git repository where your code is hosted.
+
+8. **Click on Deploy**: Deploy the application by triggering the deployment process through the Heroku dashboard or terminal.
