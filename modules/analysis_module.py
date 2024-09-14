@@ -198,8 +198,8 @@ class Analysis:
             print("\nAvailable functionalities:")
             print("1. Print customer rating")
             print("2. Provide feedback based on averages")
-            print("3. Export analysis to CSV")
-            print("4. Print CSV file contents")
+            print("3. Print CSV file contents")
+            print("4. Export analysis to CSV")
             print("5. Exit menu")
 
             choice = input("Select a functionality (1-5): \n").strip()
@@ -211,12 +211,14 @@ class Analysis:
                 averages = self.data_analyzer.calculate_averages()
                 self.feedback_provider.provide_feedback(averages)
 
-            elif choice == '3':
-                self.report_exporter.export_analysis_to_csv()
 
-            elif choice == '4':
+            elif choice == '3':
                 self.report_exporter.print_csv_contents()
                 self.handle_export_csv()  # Ask about exporting after printing contents
+
+
+            elif choice == '4':
+                self.report_exporter.export_analysis_to_csv()
 
 
             elif choice == '5':
