@@ -1,5 +1,6 @@
-import csv
+
 import os
+import csv
 
 class SurveyDataAnalyzer:
     """
@@ -88,6 +89,8 @@ class ReportExporter:
     def __init__(self, survey_data_analyzer):
         """
         Initialize with a reference to the SurveyDataAnalyzer.
+        
+        :param survey_data_analyzer: An instance of SurveyDataAnalyzer for accessing survey data and calculations.
         """
         self.survey_data_analyzer = survey_data_analyzer
 
@@ -95,6 +98,15 @@ class ReportExporter:
         """
         Export the analysis data to a CSV file in the 'reports' directory.
         Handles directory creation and file writing.
+
+        The method performs the following steps:
+        1. Creates the 'reports' directory if it does not exist.
+        2. Collects average ratings and total responses from the survey data.
+        3. Generates feedback messages based on the average ratings.
+        4. Prepares the data for CSV export, including metrics, values, and feedback.
+        5. Writes the data to the CSV file with appropriate headers.
+
+        :raises Exception: If an error occurs during file operations, an exception is raised.
         """
         try:
             # Create 'reports' directory if it doesn't exist
@@ -114,7 +126,7 @@ class ReportExporter:
             # Prepare data for CSV
             headers = ["Metric", "Value", "Feedback"]
             data = [
-                ["Total Responses", str(total_responses), ""],
+                ["Total Responses", str(total_responses), "-"],  # Set feedback for Total Responses to a dash
                 ["Overall Satisfaction", str(averages[0]), feedback[0]],
                 ["Product Quality", str(averages[1]), feedback[1]],
                 ["Customer Support", str(averages[2]), feedback[2]],
@@ -123,10 +135,9 @@ class ReportExporter:
 
             # Write to CSV
             with open(filename, mode='w', newline='', encoding='utf-8') as file:
-                writer = csv.writer(file, quoting=csv.QUOTE_MINIMAL)
-                writer.writerow(headers)
-                for row in data:
-                    writer.writerow([field.replace('\n', ' ').replace('"', '""') for field in row])
+                writer = csv.writer(file)
+                writer.writerow(headers)  # Write the header row
+                writer.writerows(data)    # Write the data rows
             
             print(f"\nExporting data to {filename}...")
             print(f"Analysis data exported to {filename} successfully.")
@@ -136,23 +147,19 @@ class ReportExporter:
 
     def print_csv_contents(self):
         """
-        Print the contents of the CSV file.
-        Reads the file and prints its content to the console.
+        Print the contents of the CSV file to the console.
+        Reads and displays the contents of the CSV file.
         """
-        filename = 'reports/analysis_report.csv'
+        filename = 'reports/analysis_report.csv'  # Path to the CSV file
+
         try:
-            if not os.path.exists(filename):
-                print(f"\nThe file {filename} does not exist.")
-                return
-
-            with open(filename, mode='r', encoding='utf-8') as file:
+            with open(filename, mode='r', newline='', encoding='utf-8') as file:
                 reader = csv.reader(file)
-                print("\nContents of the CSV file:")
                 for row in reader:
-                    print(", ".join(row))  # Join the row elements with commas for display
-
+                    print(row)
+        
         except Exception as e:
-            print(f"\nAn error occurred while reading the CSV file: {e}")
+            print(f"An error occurred while printing CSV contents: {e}")
 
 class Analysis:
     """
@@ -210,15 +217,13 @@ class Analysis:
                 averages = self.data_analyzer.calculate_averages()
                 self.feedback_provider.provide_feedback(averages)
 
-
             elif choice == '3':
                 # Prompt user to export analysis to CSV
                 self.handle_export_csv()  # Ask about exporting and perform export if confirmed
-                
+
             elif choice == '4':
                 # Print CSV file contents
                 self.report_exporter.print_csv_contents()
-
 
             elif choice == '5':
                 print("Exiting functionality menu.")
@@ -235,7 +240,15 @@ class Analysis:
         while True:
             export_choice = input("Do you want to export the analysis data to a CSV file? (yes/no):\n").strip().lower()
             if export_choice == 'yes':
+                # Export analysis data to CSV
                 self.report_exporter.export_analysis_to_csv()
+                
+                # Path to the generated CSV file
+                csv_file_path = 'reports/analysis_report.csv'  # Ensure this path matches the exported CSV
+                
+                # Import data from the CSV file to the 'report' worksheet
+                self.import_csv_to_report(csv_file_path)
+                
                 break
             elif export_choice == 'no':
                 print("Skipping export to CSV.")
@@ -243,21 +256,27 @@ class Analysis:
             else:
                 print("Invalid choice. Please enter 'yes' or 'no'.")
 
-    def print_survey_averages(self):
+    def import_csv_to_report(self, csv_file_path):
         """
-        Retrieve and print survey averages.
-        Displays the average ratings for each survey criterion.
+        Import data from a CSV file and write it to the 'report' worksheet.
+        
+        :param csv_file_path: Path to the CSV file to import.
         """
-        averages = self.data_analyzer.calculate_averages()
-        print("\nAverage Customer Rating:")
-        criteria = [
-            "Overall Satisfaction",
-            "Product Quality",
-            "Customer Support",
-            "Recommendation"
-        ]
-        for average, criterion in zip(averages, criteria):
-            print(f"{criterion}: {average}")
+        try:
+            worksheet = self.google_sheet.get_worksheet("report")  # Ensure 'report' worksheet is accessed correctly
+            
+            # Clear existing data in the 'report' worksheet (optional)
+            worksheet.clear()  # Uncomment if you want to clear the existing data before importing new data
+            
+            with open(csv_file_path, mode='r', newline='', encoding='utf-8') as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    worksheet.append_row(row)  # Append each row from the CSV to the worksheet
+            
+            print(f"Data from {csv_file_path} has been imported to the 'report' worksheet.")
+        
+        except Exception as e:
+            print(f"An error occurred while importing data to the report worksheet: {e}")
 
     def print_survey_averages(self):
         """

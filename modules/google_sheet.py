@@ -18,13 +18,13 @@ class GoogleSheet:
             "https://www.googleapis.com/auth/drive"
         ]
         # Load credentials from the service account file
-        creds = Credentials.from_service_account_file('creds.json')
+        creds = Credentials.from_service_account_file('creds.json')  # ! PROVIDE THE CORRECT PATH TO YOUR 'creds.json' FILE
         # Apply the defined scope to the credentials
         scoped_creds = creds.with_scopes(scope)
         # Authorize the gspread client with the scoped credentials
         gspread_client = gspread.authorize(scoped_creds)
         # Open the specified Google Sheets document
-        self.sheet = gspread_client.open(sheet_name)
+        self.sheet = gspread_client.open(sheet_name)  # ! MAKE SURE 'sheet_name' MATCHES THE NAME OF YOUR GOOGLE SHEETS DOCUMENT
 
     def get_worksheet(self, worksheet_name):
         """

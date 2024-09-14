@@ -2,7 +2,6 @@ import modules.google_sheet as gs
 import modules.survey_module as sm
 import modules.analysis_module as am
 
-
 def handle_user_role(user_role, google_sheet):
     """
     Handle the actions based on user role input.
@@ -19,7 +18,7 @@ def handle_user_role(user_role, google_sheet):
         else:
             print("Invalid role. Please enter 'customer' or 'owner'.")
             return False
-  
+
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
         return False
@@ -68,7 +67,7 @@ def handle_owner_role(google_sheet):
         try:
             analysis = am.Analysis(google_sheet)  # Initialize Analysis instance with the GoogleSheet object
             analysis.update_analysis_worksheet()  # Update analysis worksheet with averages
-            
+
             # Display functionality menu for owner to choose actions
             analysis.display_functionality_menu()
 
@@ -101,7 +100,6 @@ def display_welcome_message():
     print("2. **Owner**: Analyze the survey data and generate reports.")
     print("\nPlease choose your role to proceed.\n")
 
-
 def main():
     """
     Run the appropriate module based on user input.
@@ -109,7 +107,7 @@ def main():
     """
     # Call the function to display the message
     display_welcome_message()
-    google_sheet = gs.GoogleSheet('customer_survey')  # Initialize GoogleSheet instance with the correct sheet name
+    google_sheet = gs.GoogleSheet('customer_survey')  # ! PROVIDE THE NAME OF YOUR GOOGLE SHEET DOCUMENT
 
     while True:
         user_role = input("Are you a customer or the owner? (Enter 'customer' or 'owner'): \n").strip().lower()
