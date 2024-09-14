@@ -156,7 +156,7 @@ class ReportExporter:
             with open(filename, mode='r', newline='', encoding='utf-8') as file:
                 reader = csv.reader(file)
                 for row in reader:
-                    print(row)
+                    print(', '.join(row))  # Join row elements into a single string separated by commas
         
         except Exception as e:
             print(f"An error occurred while printing CSV contents: {e}")
