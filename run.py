@@ -82,7 +82,7 @@ def get_user_continue_response():
     """
     while True:
         try:
-            answer = input("Do you want to perform another action? (yes/no): \n").strip().lower()
+            answer = input("Would you like to perform any other actions? (yes/no): \n").strip().lower()
             if answer in ['yes', 'no']:
                 return answer
             else:
@@ -112,7 +112,7 @@ def main():
     google_sheet = gs.GoogleSheet('customer_survey')  # Initialize GoogleSheet instance
 
     while True:
-        user_role = input("Are you a customer or the owner? (Enter 'customer' or 'owner' or 'exit' to stop the program'): \n").strip().lower()
+        user_role = input("Would you like to proceed as a customer or as the owner? (Enter 'customer' or 'owner' or 'exit' to stop the program'): \n").strip().lower()
         if handle_user_role(user_role, google_sheet):
             continue_prompt = get_user_continue_response()
             if continue_prompt != 'yes':
