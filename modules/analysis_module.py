@@ -50,11 +50,11 @@ class SurveyDataAnalyzer:
         """
         def __init__(self):
             self.feedback_messages = {
-                1: "Extremely poor.Immediate action is required to address the issues.",
-                2: "Below expectations.Significant improvements are needed.",
-                3: "Average.Consider making changes to enhance satisfaction.",
-                4: "Good.Keep up the good work, but look for areas to enhance further.",
-                5: "Excellent.Continue with the current practices to maintain high standards."
+                1: "Extremely poor. Immediate action is required to address the issues.",
+                2: "Below expectations. Significant improvements are needed.",
+                3: "Average. Consider changes to enhance satisfaction.",
+                4: "Good. Keep up the good work, but look for areas to enhance further.",
+                5: "Excellent. Continue with the current practices to maintain high standards."
                 }
 
         def provide_feedback(self, averages):
@@ -211,12 +211,12 @@ class Analysis:
                 self.feedback_provider.provide_feedback(averages)
 
 
-            elif choice == '3':  
-                self.report_exporter.export_analysis_to_csv()
-                self.handle_export_csv()  # Ask about exporting after printing contents
-
-
+            elif choice == '3':
+                # Prompt user to export analysis to CSV
+                self.handle_export_csv()  # Ask about exporting and perform export if confirmed
+                
             elif choice == '4':
+                # Print CSV file contents
                 self.report_exporter.print_csv_contents()
 
 
@@ -233,7 +233,7 @@ class Analysis:
         Prompts the user to confirm the export action.
         """
         while True:
-            export_choice = input("\nDo you want to export the analysis data to a CSV file? (yes/no):\n").strip().lower()
+            export_choice = input("Do you want to export the analysis data to a CSV file? (yes/no):\n").strip().lower()
             if export_choice == 'yes':
                 self.report_exporter.export_analysis_to_csv()
                 break
