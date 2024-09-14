@@ -262,6 +262,7 @@ The project is deployed using Code Institute's Mock Terminal for Heroku.
 
 ### Resources
 
+- [**Python 3.12.6 documentation**](https://docs.python.org/3/) : For providing guidance on structuring and formatting the project.
 - [**Stack Overflow**](https://stackoverflow.com/): For troubleshooting and code-related questions.
 - [**ChatGPT**](https://chat.openai.com/) : For assistance with programming queries and code explanations.
 - [**Make a README**](https://www.makeareadme.com/): For providing guidance on structuring and formatting the README.
