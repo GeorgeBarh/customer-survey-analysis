@@ -128,8 +128,9 @@ class ReportExporter:
                 writer.writerow(headers)
                 for row in data:
                     writer.writerow([field.replace('\n', ' ').replace('"', '""') for field in row])
-
-            print(f"\nAnalysis data exported to {filename} successfully.")
+            
+            print(f"\nExporting data to {filename}...")
+            print(f"Analysis data exported to {filename} successfully.")
 
         except Exception as e:
             print(f"\nAn error occurred while exporting to CSV: {e}")
@@ -211,10 +212,12 @@ class Analysis:
                 self.feedback_provider.provide_feedback(averages)
 
             elif choice == '3':
-                self.handle_export_csv()
+                self.report_exporter.export_analysis_to_csv()
 
             elif choice == '4':
                 self.report_exporter.print_csv_contents()
+                self.handle_export_csv()  # Ask about exporting after printing contents
+
 
             elif choice == '5':
                 print("Exiting functionality menu.")
