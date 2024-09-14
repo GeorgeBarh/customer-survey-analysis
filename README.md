@@ -63,11 +63,14 @@ This object-oriented design pattern enhances code readability, reusability, and 
 The project uses the following data model to structure and store survey responses:
 
 - **Survey Responses**: Each response consists of the following fields:
+
   - **Customer ID**: A unique identifier for each customer.
   - **Overall Satisfaction**: Rating from 1 to 5.
   - **Product Quality**: Rating from 1 to 5.
   - **Customer Support**: Rating from 1 to 5.
   - **Recommendation**: Rating from 1 to 5.
+
+  ![customer_rating_screenshot](images\customer_rating.png)
 
 The data is stored in a Google Sheets document with separate worksheets for survey responses and analysis results.
 
@@ -77,7 +80,7 @@ The data is stored in a Google Sheets document with separate worksheets for surv
 
 Manages authentication and access to Google Sheets through the API, providing functionality to interact with specific worksheets within a Google Sheets document.
 
-- ****init****(self, sheet_name)
+- \***\*init\*\***(self, sheet_name)
 
 Sets up the Google Sheets API client with necessary credentials and scopes. Opens the Google Sheets document specified by **sheet_name**.
 
@@ -103,6 +106,9 @@ Handles operations for the customer role, including creating a **Survey** instan
 
 - **validate_password**()
 
+  ![password](images/password.png)
+  ![password_confirmation](images\password_confirmation.png)
+
 Validates the password required for accessing owner functionalities. The password is known to the user before the program asks them to enter it, which allows the program to be evaluated effectively. The password is checked against a predefined value. The _password.py_ file containing the password is not included in the _.gitignore_ file to facilitate deployment on Heroku.
 
 - **handle_owner_role**(google_sheet)
@@ -119,9 +125,11 @@ Displays a welcome message introducing the program and informing the user about 
 
 ### 3.3 Survey Module (Survey)
 
+![survey screenshot](images\survey1.png)
+
 Handles customer survey responses by collecting, validating, and updating data in the Google Sheets worksheet.
 
-- ****init****(self, google_sheet)
+- \***\*init\*\***(self, google_sheet)
 
 Initializes the **Survey** class with a reference to the Google Sheets worksheet designated for survey responses.
 
@@ -145,7 +153,7 @@ Updates the survey worksheet with a new row of data, including customer response
 
 Manages the analysis of survey data, provides feedback, and exports analysis results to a CSV file.
 
-- ****init****(self, google_sheet)
+- \***\*init\*\***(self, google_sheet)
 
 Initializes the **Analysis** class with references to components needed for data analysis, including **SurveyDataAnalyzer**, **FeedbackProvider**, and **ReportExporter**.
 
@@ -156,6 +164,8 @@ Updates the analysis worksheet with the latest survey averages and the number of
 - **display_functionality_menu**(self)
 
 Displays a menu of available functionalities for analyzing and exporting survey data, and handles user selections.
+
+![functionality_menu](images\functionalities_menu.png)
 
 - **handle_export_csv**(self)
 
@@ -171,9 +181,11 @@ Retrieves and prints the average ratings for each survey criterion.
 
 - **FeedbackProvider Class**
 
+![feedback screenshot](images\feedback.png)
+
 Provides feedback messages based on average survey ratings, mapping average scores to predefined feedback.
 
-- ****init****(self)
+- \***\*init\*\***(self)
 
 Initializes the **FeedbackProvider** with a set of predefined feedback messages corresponding to different average scores.
 
@@ -187,9 +199,11 @@ Returns the feedback message associated with a specific score.
 
 - **ReportExporter Class**
 
+![export_screenshot](images\export.png)
+
 Handles exporting survey analysis data to a CSV file and printing the file’s contents.
 
-- ****init****(self, survey_data_analyzer)
+- \***\*init\*\***(self, survey_data_analyzer)
 
 Initializes the **ReportExporter** with a reference to the **SurveyDataAnalyzer** instance for accessing survey data.
 
@@ -198,6 +212,8 @@ Initializes the **ReportExporter** with a reference to the **SurveyDataAnalyzer*
 Exports analysis data to a CSV file, including creating directories, writing data, and handling file operations.
 
 - **print_csv_contents**(self)
+
+![analysis_content_screenshot](images\print_analysis.png)
 
 Reads and prints the contents of the CSV file to the console.
 
@@ -245,17 +261,28 @@ Initially, I used a procedural programming approach for the project. However, du
 - **Bug 1**: An error occurred while processing survey analysis due to an undefined method.  
   **Solution**: Added the appropriate method reference.
 
-- **Bug 2**: An error occurred because a required argument was missing when appending a row to the worksheet.  
+- **Bug 2**: An error occurred because a required argument was missing when appending a row to the worksheet.
+
+  ![value missing error ](images\value_error.png)
+
   **Solution**: Passed the necessary data as an argument to the method.
+
+  ![value missing solution ](images\value_solution.png)
 
 - **Bug 3**: The method for printing CSV contents was displaying data as a list instead of a comma-separated string.  
   **Solution**: Adjusted the method to join list items into a string for proper display.
 
+  ![List solution ](images\list_solution.png)
+
 - **Bug 4**: If the user chose to exit the menu, the program did not ask if they wanted to proceed or exit.  
   **Solution**: Implemented a prompt to confirm whether the user wanted to perform another action or exit.
 
+  ![Exit at the finish ](images\exiting.png)
+
 - **Bug 5**: At the start of the program, there was no option to exit.  
   **Solution**: Added an option to exit the program at the initial user interface.
+
+  ![Exit at the start ](images\exit_from_start_solution.png)
 
 ### Validator Testing
 
