@@ -4,6 +4,8 @@ The Customer Survey Analysis Program is a Python-based application designed to h
 
 You can access the live version of the application [here](https://customer-survey-analysis-f7747660b229.herokuapp.com/).
 
+You can access the Google Spreadsheet [here](https://docs.google.com/spreadsheets/d/1K-I3y8vp4AlnknqPFVrDW6I7B1lf7syxYzSH7QMOOrY/edit?usp=sharing)
+
 ![Screenshot of Responsiveness](images/responsive.png)
 
 ## Table of Contents
@@ -31,6 +33,8 @@ The Customer Survey Analysis Program aims to facilitate efficient collection and
 - **Generate Reports**: Export the analysis results to a CSV file and view detailed feedback based on average ratings.
 - **Update Analysis**: See real-time updates of survey results and feedback in the Google Sheets analysis worksheet.
 - **Print and Review**: Print or view the contents of the generated CSV file to review the analysis data.
+
+[Customer Survey Analysis Spreadsheet](https://docs.google.com/spreadsheets/d/1K-I3y8vp4AlnknqPFVrDW6I7B1lf7syxYzSH7QMOOrY/edit?usp=sharing)
 
 ## 2. Design and Architecture
 
@@ -240,5 +244,3 @@ The project is deployed using Code Institute's Mock Terminal for Heroku.
 6. **Click on Deploy**: Deploy the application by triggering the deployment process through the Heroku dashboard or terminal.
 
 7. **Link the Heroku App to the Repository**: Connect your Heroku app to the Git repository where your code is hosted.
-
-8. **Click on Deploy**: Deploy the application by triggering the deployment process through the Heroku dashboard or terminal.
