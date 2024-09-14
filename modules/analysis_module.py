@@ -1,4 +1,3 @@
-
 import csv
 import os
 
@@ -51,11 +50,11 @@ class SurveyDataAnalyzer:
         """
         def __init__(self):
             self.feedback_messages = {
-                1: "Extremely poor.\nImmediate action is required to address the issues.",
-                2: "Below expectations.\nSignificant improvements are needed.",
-                3: "Average.\nConsider making improvements to enhance satisfaction.",
-                4: "Good.\nKeep up the good work, but look for areas to enhance further.",
-                5: "Excellent.\nContinue with the current practices to maintain high standards."
+                1: "Extremely poor.Immediate action is required to address the issues.",
+                2: "Below expectations.Significant improvements are needed.",
+                3: "Average.Consider making changes to enhance satisfaction.",
+                4: "Good.Keep up the good work, but look for areas to enhance further.",
+                5: "Excellent.Continue with the current practices to maintain high standards."
                 }
 
         def provide_feedback(self, averages):
@@ -116,10 +115,10 @@ class ReportExporter:
             headers = ["Metric", "Value", "Feedback"]
             data = [
                 ["Total Responses", str(total_responses), ""],
-                ["Average Overall Satisfaction", str(averages[0]), feedback[0]],
-                ["Average Product Quality", str(averages[1]), feedback[1]],
-                ["Average Customer Support", str(averages[2]), feedback[2]],
-                ["Average Recommendation", str(averages[3]), feedback[3]]
+                ["Overall Satisfaction", str(averages[0]), feedback[0]],
+                ["Product Quality", str(averages[1]), feedback[1]],
+                ["Customer Support", str(averages[2]), feedback[2]],
+                ["Recommendation", str(averages[3]), feedback[3]]
             ]
 
             # Write to CSV
@@ -198,8 +197,8 @@ class Analysis:
             print("\nAvailable functionalities:")
             print("1. Print customer rating")
             print("2. Provide feedback based on averages")
-            print("3. Print CSV file contents")
-            print("4. Export analysis to CSV")
+            print("3. Export analysis to CSV")
+            print("4. Print CSV file contents")
             print("5. Exit menu")
 
             choice = input("Select a functionality (1-5): \n").strip()
@@ -212,13 +211,13 @@ class Analysis:
                 self.feedback_provider.provide_feedback(averages)
 
 
-            elif choice == '3':
-                self.report_exporter.print_csv_contents()
+            elif choice == '3':  
+                self.report_exporter.export_analysis_to_csv()
                 self.handle_export_csv()  # Ask about exporting after printing contents
 
 
             elif choice == '4':
-                self.report_exporter.export_analysis_to_csv()
+                self.report_exporter.print_csv_contents()
 
 
             elif choice == '5':
@@ -234,7 +233,7 @@ class Analysis:
         Prompts the user to confirm the export action.
         """
         while True:
-            export_choice = input("Do you want to export the analysis data to a CSV file? (yes/no):\n").strip().lower()
+            export_choice = input("\nDo you want to export the analysis data to a CSV file? (yes/no):\n").strip().lower()
             if export_choice == 'yes':
                 self.report_exporter.export_analysis_to_csv()
                 break
