@@ -110,9 +110,11 @@ def main():
     # Display the welcome message
     display_welcome_message()
     google_sheet = gs.GoogleSheet('customer_survey')  # Initialize GoogleSheet instance
-
+     
     while True:
-        user_role = input("Would you like to proceed as a customer or as the owner? (Enter 'customer' or 'owner' or 'exit' to stop the program'): \n").strip().lower()
+
+        print("Would you like to proceed as a customer or as the owner?")
+        user_role = input("(Please enter 'customer' or 'owner' or 'exit' to stop the program'): \n").strip().lower()
         if handle_user_role(user_role, google_sheet):
             continue_prompt = get_user_continue_response()
             if continue_prompt != 'yes':
