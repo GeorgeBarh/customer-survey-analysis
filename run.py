@@ -4,9 +4,9 @@ import modules.analysis_module as am
 
 def handle_user_role(user_role, google_sheet):
     """
-    Handle the actions based on user role input.
-    Depending on whether the user is a 'customer' or 'owner', 
-    different functions are called to handle the respective roles.
+    Handle actions based on the user role. Calls different functions 
+    depending on whether the role is 'customer' or 'owner'. 
+    Prints an error message for invalid roles and handles exceptions.
     """
     try:
         if user_role == 'customer':
@@ -17,40 +17,36 @@ def handle_user_role(user_role, google_sheet):
 
         else:
             print("Invalid role. Please enter 'customer' or 'owner'.")
-            return False
 
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
-        return False
-
-    return True
 
 def handle_customer_role(google_sheet):
     """
-    Handle actions for customer role.
-    Collects customer survey responses and updates the Google Sheet.
+    Manage actions for the customer role. Collects customer survey responses 
+    and updates the Google Sheet with these responses.
     """
     try:
-        survey = sm.Survey(google_sheet)  # Initialize Survey instance with the GoogleSheet object
-        customer_responses = survey.get_customer_answers()  # Collect responses from the customer
-        survey.update_survey_worksheet(customer_responses)  # Update the worksheet with the collected responses
+        survey = sm.Survey(google_sheet)  # Initialize Survey instance
+        customer_responses = survey.get_customer_answers()  # Collect responses
+        survey.update_survey_worksheet(customer_responses)  # Update worksheet
     except Exception as e:
         print(f"An error occurred while processing customer responses: {e}")
 
 def validate_password():
     """
-    Verify the password for accessing the owner functionalities.
-    Ensures that the correct password is provided to proceed with owner functionalities.
+    Check the password for accessing owner functionalities. 
+    Prompts the user for the password and verifies it.
     """
     try:
-        from password import PASSWORD  # Import the password from a separate file
+        from password import PASSWORD  # Import the correct password
     except ImportError:
         print("Configuration file missing. Please ensure 'password.py' is present.")
         exit(1)
 
     print("\nThe password is 'owner'.") 
     print("For the project's assessment purposes, the user is aware of the password.")
-    password = input("Enter the password 'owner': \n").strip()  # Prompt user to enter the password
+    password = input("Enter the password 'owner': \n").strip()  # Prompt user for password
     if password == PASSWORD:
         print("\nPassword correct. Proceeding with analysis...")
         return True
@@ -60,15 +56,15 @@ def validate_password():
 
 def handle_owner_role(google_sheet):
     """
-    Handle actions for owner role.
-    Validates the password and if correct, updates the analysis and displays the functionality menu.
+    Manage actions for the owner role. Validates the password and, if correct, 
+    updates the analysis and displays a menu of functionalities.
     """
     if validate_password():
         try:
-            analysis = am.Analysis(google_sheet)  # Initialize Analysis instance with the GoogleSheet object
-            analysis.update_analysis_worksheet()  # Update analysis worksheet with averages
+            analysis = am.Analysis(google_sheet)  # Initialize Analysis instance
+            analysis.update_analysis_worksheet()  # Update analysis worksheet
 
-            # Display functionality menu for owner to choose actions
+            # Display menu of functionalities
             analysis.display_functionality_menu()
 
         except Exception as e:
@@ -76,8 +72,8 @@ def handle_owner_role(google_sheet):
 
 def get_user_continue_response():
     """
-    Ask the user if they want to perform another action.
-    Prompts the user for input to decide whether to continue or exit.
+    Ask the user if they want to perform another action. 
+    Continues to prompt until a valid response ('yes' or 'no') is provided.
     """
     while True:
         try:
@@ -91,7 +87,8 @@ def get_user_continue_response():
 
 def display_welcome_message():
     """
-    Display the welcome message and program introduction.
+    Display a welcome message and introduce the program. 
+    Informs the user about the two available roles: customer and owner.
     """
     print("\nWelcome to the Customer Survey Analysis Program.\n")
     print("This program is designed for educational purposes.")
@@ -102,12 +99,12 @@ def display_welcome_message():
 
 def main():
     """
-    Run the appropriate module based on user input.
-    Initializes the GoogleSheet instance and handles user role input.
+    Main function to run the program. Initializes the GoogleSheet instance, 
+    handles user role input, and allows the user to perform actions based on their role.
     """
-    # Call the function to display the message
+    # Display the welcome message
     display_welcome_message()
-    google_sheet = gs.GoogleSheet('customer_survey')  # ! PROVIDE THE NAME OF YOUR GOOGLE SHEET DOCUMENT
+    google_sheet = gs.GoogleSheet('customer_survey')  # Initialize GoogleSheet instance
 
     while True:
         user_role = input("Are you a customer or the owner? (Enter 'customer' or 'owner'): \n").strip().lower()
