@@ -95,9 +95,9 @@ def display_welcome_message():
     """
     Display the welcome message and program introduction.
     """
-    print("Welcome to the Customer Survey Analysis Program!")
+    print("\nWelcome to the Customer Survey Analysis Program.\n")
     print("This program is designed for educational purposes.")
-    print("You can run the app any one of two roles:")
+    print("You can run the app in one of two roles:")
     print("1. **Customer**: Complete the survey to provide feedback.")
     print("2. **Owner**: Analyze the survey data and generate reports.")
     print("\nPlease choose your role to proceed.\n")

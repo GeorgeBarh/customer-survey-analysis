@@ -84,7 +84,7 @@ class SurveyDataAnalyzer:
 class ReportExporter:
     """
     Exports survey analysis data to a CSV file.
-    Handles the creation of a CSV report in the 'reports' directory.
+    Handles the creation of a CSV report in the 'reports' directory and printing its contents.
     """
     def __init__(self, survey_data_analyzer):
         """
@@ -98,8 +98,9 @@ class ReportExporter:
         Handles directory creation and file writing.
         """
         try:
+            # Create 'reports' directory if it doesn't exist
             if not os.path.exists('reports'):
-                os.makedirs('reports')  # Create the 'reports' directory if it doesn't exist
+                os.makedirs('reports')
 
             filename = 'reports/analysis_report.csv'  # Path to the CSV file
 
@@ -107,19 +108,23 @@ class ReportExporter:
             averages = self.survey_data_analyzer.calculate_averages()
             total_responses = len(self.survey_data_analyzer.get_survey_data())
 
+            # Create feedback based on averages
+            feedback_provider = SurveyDataAnalyzer.FeedbackProvider()
+            feedback = [feedback_provider.get_feedback_message(average) for average in averages]
+
             # Prepare data for CSV
-            headers = ["Metric", "Value"]
+            headers = ["Metric", "Value", "Feedback"]
             data = [
-                ["Total Responses", total_responses],
-                ["Average Overall Satisfaction", averages[0]],
-                ["Average Product Quality", averages[1]],
-                ["Average Customer Support", averages[2]],
-                ["Average Recommendation", averages[3]]
+                ["Total Responses", str(total_responses)," - "],
+                ["Average Overall Satisfaction", str(averages[0]), feedback[0]],
+                ["Average Product Quality", str(averages[1]), feedback[1]],
+                ["Average Customer Support", str(averages[2]), feedback[2]],
+                ["Average Recommendation", str(averages[3]), feedback[3]]
             ]
 
             # Write to CSV
-            with open(filename, mode='w', newline='') as file:
-                writer = csv.writer(file)
+            with open(filename, mode='w', newline='', encoding='utf-8') as file:
+                writer = csv.writer(file, quoting=csv.QUOTE_MINIMAL)
                 writer.writerow(headers)
                 writer.writerows(data)
                 
@@ -139,10 +144,11 @@ class ReportExporter:
                 print(f"\nThe file {filename} does not exist.")
                 return
 
-            with open(filename, mode='r') as file:
-                content = file.read()  # Read the entire content of the CSV file
+            with open(filename, mode='r', encoding='utf-8') as file:
+                reader = csv.reader(file)
                 print("\nContents of the CSV file:")
-                print(content)  # Print the content as plain text
+                for row in reader:
+                    print(", ".join(row))  # Join the row elements with commas for display
 
         except Exception as e:
             print(f"\nAn error occurred while reading the CSV file: {e}")
@@ -188,7 +194,7 @@ class Analysis:
         """
         while True:
             print("\nAvailable functionalities:")
-            print("1. Print survey averages")
+            print("1. Print customer rating")
             print("2. Provide feedback based on averages")
             print("3. Export analysis to CSV")
             print("4. Print CSV file contents")
@@ -238,7 +244,7 @@ class Analysis:
         Displays the average ratings for each survey criterion.
         """
         averages = self.data_analyzer.calculate_averages()
-        print("\nSurvey Averages List:")
+        print("\nAverage Customer Rating:")
         criteria = [
             "Overall Satisfaction",
             "Product Quality",
@@ -254,7 +260,7 @@ class Analysis:
         Displays the average ratings for each survey criterion.
         """
         averages = self.data_analyzer.calculate_averages()
-        print("\nSurvey Averages List:")
+        print("\nAverage Customer Rating List:")
         criteria = [
             "Overall Satisfaction",
             "Product Quality",
